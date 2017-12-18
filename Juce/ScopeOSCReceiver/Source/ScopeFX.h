@@ -33,12 +33,11 @@
 #include <JuceHeader.h>
 #include "../../../External/SonicCore/effclass.h"
 #include "ScopeFXParameterDefinitions.h"
-#include "../../ScopeOSC/Comms/ScopeOSCServer.h"
+#include "BCMParameter.h"
 
 using namespace ScopeFXParameterDefinitions;
 
-class ScopeFX : public Effect,
-				private OSCReceiver::Listener<OSCReceiver::RealtimeCallback>
+class ScopeFX : public Effect
 {
 public:
     ScopeFX();
@@ -56,10 +55,7 @@ public:
                 PadData*  asyncOut, PadData* syncOut);
 
 private:	
-	ScopedPointer<ScopeOSCServer> scopeOSCServer;
-	Array<int> paramValues;
-
-	void oscMessageReceived(const OSCMessage& message);
+	OwnedArray<BCMParameter> parameters;
 };
 
 

@@ -167,8 +167,9 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\ScopeFX\ScopeFX.cpp"/>
-    <ClCompile Include="..\..\..\ScopeOSC\Comms\ScopeOSCServer.cpp"/>
+    <ClCompile Include="..\..\Source\BCMParameter.cpp"/>
+    <ClCompile Include="..\..\Source\ScopeFX.cpp"/>
+    <ClCompile Include="..\..\Source\ScopeOSCServer.cpp"/>
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_core\containers\juce_AbstractFifo.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
@@ -1330,12 +1331,13 @@
     <ClCompile Include="..\..\JuceLibraryCode\include_juce_osc.cpp"/>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\ScopeFX\ScopeFX.h"/>
-    <ClInclude Include="..\..\ScopeFX\ScopeFXParameterDefinitions.h"/>
-    <ClInclude Include="..\..\..\ScopeOSC\Comms\ScopeOSCServer.h"/>
-    <ClInclude Include="..\..\..\ScopeOSC\Utils\BCMMath.h"/>
-    <ClInclude Include="..\..\..\ScopeOSC\Utils\BCMXml.h"/>
+    <ClInclude Include="..\..\Source\BCMParameter.h"/>
     <ClInclude Include="..\..\..\..\External\SonicCore\effclass.h"/>
+    <ClInclude Include="..\..\Source\BCMMath.h"/>
+    <ClInclude Include="..\..\Source\BCMXml.h"/>
+    <ClInclude Include="..\..\Source\ScopeFX.h"/>
+    <ClInclude Include="..\..\Source\ScopeFXParameterDefinitions.h"/>
+    <ClInclude Include="..\..\Source\ScopeOSCServer.h"/>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_core\containers\juce_AbstractFifo.h"/>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_core\containers\juce_Array.h"/>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_core\containers\juce_ArrayAllocationBase.h"/>

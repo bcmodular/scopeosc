@@ -2,15 +2,6 @@
 
 <Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="ScopeOSCReceiver\Source\ScopeFX">
-      <UniqueIdentifier>{64516C79-6E05-E9FA-8B37-B563718A5208}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ScopeOSCReceiver\Source\Comms">
-      <UniqueIdentifier>{24C4E112-470F-69E1-2687-13FF47622733}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ScopeOSCReceiver\Source\Utils">
-      <UniqueIdentifier>{8B0C6CE8-ED30-0338-C448-A5A1CF838537}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ScopeOSCReceiver\Source\Include\SonicCore">
       <UniqueIdentifier>{E7060F0D-B208-700E-5BE6-8D94ADF732A8}</UniqueIdentifier>
     </Filter>
@@ -232,11 +223,14 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\ScopeFX\ScopeFX.cpp">
-      <Filter>ScopeOSCReceiver\Source\ScopeFX</Filter>
+    <ClCompile Include="..\..\Source\BCMParameter.cpp">
+      <Filter>ScopeOSCReceiver\Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\ScopeOSC\Comms\ScopeOSCServer.cpp">
-      <Filter>ScopeOSCReceiver\Source\Comms</Filter>
+    <ClCompile Include="..\..\Source\ScopeFX.cpp">
+      <Filter>ScopeOSCReceiver\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\ScopeOSCServer.cpp">
+      <Filter>ScopeOSCReceiver\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_core\containers\juce_AbstractFifo.cpp">
       <Filter>Juce Modules\juce_core\containers</Filter>
@@ -1491,23 +1485,26 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\ScopeFX\ScopeFX.h">
-      <Filter>ScopeOSCReceiver\Source\ScopeFX</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\ScopeFX\ScopeFXParameterDefinitions.h">
-      <Filter>ScopeOSCReceiver\Source\ScopeFX</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\ScopeOSC\Comms\ScopeOSCServer.h">
-      <Filter>ScopeOSCReceiver\Source\Comms</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\ScopeOSC\Utils\BCMMath.h">
-      <Filter>ScopeOSCReceiver\Source\Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\ScopeOSC\Utils\BCMXml.h">
-      <Filter>ScopeOSCReceiver\Source\Utils</Filter>
+    <ClInclude Include="..\..\Source\BCMParameter.h">
+      <Filter>ScopeOSCReceiver\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\External\SonicCore\effclass.h">
       <Filter>ScopeOSCReceiver\Source\Include\SonicCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\BCMMath.h">
+      <Filter>ScopeOSCReceiver\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\BCMXml.h">
+      <Filter>ScopeOSCReceiver\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ScopeFX.h">
+      <Filter>ScopeOSCReceiver\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ScopeFXParameterDefinitions.h">
+      <Filter>ScopeOSCReceiver\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ScopeOSCServer.h">
+      <Filter>ScopeOSCReceiver\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_core\containers\juce_AbstractFifo.h">
       <Filter>Juce Modules\juce_core\containers</Filter>

@@ -6,27 +6,24 @@
               splashScreenColour="Dark" cppLanguageStandard="11" companyCopyright="">
   <MAINGROUP id="NHuEI4" name="ScopeOSCReceiver">
     <GROUP id="{64BE5796-E2DE-9B95-D294-1AB7E82FE7E7}" name="Source">
-      <GROUP id="{FC2ED1EA-7C02-C14B-5969-E5EDA0D181F6}" name="ScopeFX">
-        <FILE id="P1AxJi" name="ScopeFX.cpp" compile="1" resource="0" file="ScopeFX/ScopeFX.cpp"/>
-        <FILE id="TYYtFx" name="ScopeFX.h" compile="0" resource="0" file="ScopeFX/ScopeFX.h"/>
-        <FILE id="tZBS9l" name="ScopeFXParameterDefinitions.h" compile="0"
-              resource="0" file="ScopeFX/ScopeFXParameterDefinitions.h"/>
-      </GROUP>
-      <GROUP id="{5745FFC4-C5B4-BD74-0A7E-DD9581CA01A2}" name="Comms">
-        <FILE id="FRCer1" name="ScopeOSCServer.cpp" compile="1" resource="0"
-              file="../ScopeOSC/Comms/ScopeOSCServer.cpp"/>
-        <FILE id="SAvj7V" name="ScopeOSCServer.h" compile="0" resource="0"
-              file="../ScopeOSC/Comms/ScopeOSCServer.h"/>
-      </GROUP>
-      <GROUP id="{92DDD969-B774-9C63-66ED-EF724B652727}" name="Utils">
-        <FILE id="d16u8x" name="BCMMath.h" compile="0" resource="0" file="../ScopeOSC/Utils/BCMMath.h"/>
-        <FILE id="O4OwG6" name="BCMXml.h" compile="0" resource="0" file="../ScopeOSC/Utils/BCMXml.h"/>
-      </GROUP>
+      <FILE id="LMD9Fd" name="BCMParameter.h" compile="0" resource="0" file="Source/BCMParameter.h"/>
+      <FILE id="HkTAKk" name="BCMParameter.cpp" compile="1" resource="0"
+            file="Source/BCMParameter.cpp"/>
       <GROUP id="{56BA3D79-F9D5-1CA1-9B57-6128B1A1E3DE}" name="Include">
         <GROUP id="{0E33D926-BB3A-9A94-5618-F29D1267E249}" name="SonicCore">
           <FILE id="R3seE2" name="effclass.h" compile="0" resource="0" file="../../External/SonicCore/effclass.h"/>
         </GROUP>
       </GROUP>
+      <FILE id="IYccfK" name="BCMMath.h" compile="0" resource="0" file="Source/BCMMath.h"/>
+      <FILE id="Y0Lvzn" name="BCMXml.h" compile="0" resource="0" file="Source/BCMXml.h"/>
+      <FILE id="izgXYx" name="ScopeFX.cpp" compile="1" resource="0" file="Source/ScopeFX.cpp"/>
+      <FILE id="OZIIB9" name="ScopeFX.h" compile="0" resource="0" file="Source/ScopeFX.h"/>
+      <FILE id="BHkvn2" name="ScopeFXParameterDefinitions.h" compile="0"
+            resource="0" file="Source/ScopeFXParameterDefinitions.h"/>
+      <FILE id="dZpJAD" name="ScopeOSCServer.cpp" compile="1" resource="0"
+            file="Source/ScopeOSCServer.cpp"/>
+      <FILE id="byw0xs" name="ScopeOSCServer.h" compile="0" resource="0"
+            file="Source/ScopeOSCServer.h"/>
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>

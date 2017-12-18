@@ -32,39 +32,26 @@ using namespace ScopeFXParameterDefinitions;
 
 ScopeFX::ScopeFX() : Effect(&effectDescription)
 {
-	paramValues.insertMultiple(0, 0, numParameters);
-	scopeOSCServer = new ScopeOSCServer();
+	for (int i = 0; i < numParameters; i++)
+		parameters.add(new BCMParameter("/" + String(i)));
 }
 
 ScopeFX::~ScopeFX()
 {
 }
 
-void ScopeFX::oscMessageReceived(const OSCMessage& message)
-{
-	String addressPattern = message.getAddressPattern().toString();
-	
-	if (message.size() == 1 && message[0].isFloat32())
-	{
-		float newValue = message[0].getFloat32();
-		paramValues.set(0, newValue);
-	}
-	else
-		DBG("ScopeFX::oscMessageReceived - received other OSC message");
-	
-}
-
 int ScopeFX::async(PadData** asyncIn,  PadData* /*syncIn*/,
                    PadData*  asyncOut, PadData* /*syncOut*/)
 {
-	Array<int> currentValues(paramValues);
+	(void)asyncIn;
 
-	if (asyncOut[OUTPAD_PARAMS].itg==0)
-	{
-		asyncOut[OUTPAD_PARAMS].itg = (int)malloc(4 * numParameters);
-		memcpy((int*)asyncOut[OUTPAD_PARAMS].itg, currentValues.getRawDataPointer(), numParameters * 4);
-	}
+	Array<int> currentValues;
+	for (int i = 0; i < numParameters; i++)
+		currentValues.add(i, parameters[i]->getScopeIntValue());
 
+	asyncOut[OUTPAD_PARAMS].itg = (int)malloc(4 * numParameters);
+	memcpy((int*)asyncOut[OUTPAD_PARAMS].itg, currentValues.getRawDataPointer(), numParameters * 4);
+	
 	return -1;
 }
 
