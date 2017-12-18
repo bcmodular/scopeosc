@@ -28,10 +28,37 @@
 
 #include "ScopeFX.h"
 
+#ifdef _WIN32
+#include <Windows.h>
+#endif
+
+#ifdef _WIN32
+EXTERN_C IMAGE_DOS_HEADER __ImageBase;
+#define HINST_THISCOMPONENT ((HINSTANCE)&__ImageBase)  
+HWND scopeWindow;
+BOOL CALLBACK EnumWindowsProc(HWND hwnd, LPARAM /* lParam */)
+{
+    HINSTANCE hinst = (HINSTANCE)GetModuleHandle(NULL);
+
+    if((HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE) == hinst && IsWindowVisible(hwnd))
+    {
+        scopeWindow = hwnd;
+        return FALSE;
+    }
+    else
+        return TRUE;
+}
+#endif
+
 using namespace ScopeFXParameterDefinitions;
 
 ScopeFX::ScopeFX() : Effect(&effectDescription)
 {
+	#ifdef _WIN32
+        Process::setCurrentModuleInstanceHandle(HINST_THISCOMPONENT);
+	#endif
+        initialiseJuce_GUI();
+
 	for (int i = 0; i < numParameters; i++)
 		parameters.add(new BCMParameter("/" + String(i)));
 }
@@ -45,12 +72,13 @@ int ScopeFX::async(PadData** asyncIn,  PadData* /*syncIn*/,
 {
 	(void)asyncIn;
 
-	Array<int> currentValues;
-	for (int i = 0; i < numParameters; i++)
-		currentValues.add(i, parameters[i]->getScopeIntValue());
+	int currentValues[numParameters] = {};
 
+	for (int i = 0; i < numParameters; i++)
+		currentValues[i] = parameters[i]->getScopeIntValue();
+	
 	asyncOut[OUTPAD_PARAMS].itg = (int)malloc(4 * numParameters);
-	memcpy((int*)asyncOut[OUTPAD_PARAMS].itg, currentValues.getRawDataPointer(), numParameters * 4);
+	memcpy((int*)asyncOut[OUTPAD_PARAMS].itg, currentValues, numParameters * 4);
 	
 	return -1;
 }

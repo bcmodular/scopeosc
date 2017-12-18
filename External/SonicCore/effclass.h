@@ -30,9 +30,9 @@
 #define M_PI    3.14159265359
 #endif
 
-#ifndef ERROR_NOT_SUPPORTED
-#define ERROR_NOT_SUPPORTED     50
-#endif
+//#ifndef ERROR_NOT_SUPPORTED
+//#define ERROR_NOT_SUPPORTED     50
+//#endif
 
 #ifndef VERIFY_READ_INPUT
 #define VERIFY_READ_INPUT       0
