@@ -43,8 +43,8 @@ public:
 
 	bool   sendMessage(const OSCAddressPattern pattern, float valueToSend);
 
-	void   registerOSCListener(Listener<RealtimeCallback>* newListener);
-	void   unregisterOSCListener(Listener<RealtimeCallback>* listenerToRemove);
+	void   registerOSCListener(ListenerWithOSCAddress<RealtimeCallback>* newListener, OSCAddress address);
+	void   unregisterOSCListener(ListenerWithOSCAddress<RealtimeCallback>* listenerToRemove);
 
 	juce_DeclareSingleton (ScopeOSCServer, false)
 

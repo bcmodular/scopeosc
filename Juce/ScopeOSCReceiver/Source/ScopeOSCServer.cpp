@@ -55,13 +55,13 @@ void ScopeOSCServer::setLocalPortNumber(int portNumber)
 	}
 }
 
-void ScopeOSCServer::registerOSCListener(Listener<RealtimeCallback>* newListener)
+void ScopeOSCServer::registerOSCListener(ListenerWithOSCAddress<RealtimeCallback>* newListener, OSCAddress address)
 {
 	removeListener(newListener);
-	addListener(newListener);
+	addListener(newListener, address);
 }
 
-void ScopeOSCServer::unregisterOSCListener(Listener<RealtimeCallback>* listenerToRemove)
+void ScopeOSCServer::unregisterOSCListener(ListenerWithOSCAddress<RealtimeCallback>* listenerToRemove)
 {
 	removeListener(listenerToRemove);
 }
