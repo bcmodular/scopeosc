@@ -27,9 +27,11 @@
 #include "ScopeOSCServer.h"
 
 BCMParameter::BCMParameter(String initialOSCUID)
-	: scopeIntValue(0),
-	  oscUID(initialOSCUID)
-{}
+	: scopeIntValue(0)
+{
+	oscUID.addListener(this);
+	oscUID.setValue(initialOSCUID);
+}
 
 BCMParameter::~BCMParameter()
 {
@@ -48,6 +50,8 @@ void BCMParameter::setScopeIntValue(int newValue)
 
 void BCMParameter::valueChanged(Value& valueThatChanged)
 {
+	(void)valueThatChanged;
+
 	// New OSC UID
 	ScopeOSCServer::getInstance()->registerOSCListener(this, getOSCPath());
 }
@@ -63,8 +67,9 @@ void BCMParameter::oscMessageReceived (const OSCMessage& message)
 
 	if (message.size() == 1 && message[0].isInt32())
 	{
-		float newValue = message[0].getInt32();
+		int newValue = message[0].getInt32();
 		setScopeIntValue(newValue);
+		DBG("BCMParameter::oscMessageReceived - set value to: " + String(newValue));
 	}
 	else
 		DBG("BCMParameter::handleOSCMessage - received other OSC message");
