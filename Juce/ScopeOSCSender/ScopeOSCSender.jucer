@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<JUCERPROJECT id="JG4Lct" name="ScopeOSCSender" projectType="dll" version="0.0.1"
+              bundleIdentifier="com.yourcompany.ScopeOSCSender" includeBinaryInAppConfig="1"
+              jucerVersion="5.2.0" defines="" displaySplashScreen="1" reportAppUsage="1"
+              splashScreenColour="Dark" cppLanguageStandard="11" companyCopyright="">
+  <MAINGROUP id="NHuEI4" name="ScopeOSCSender">
+    <GROUP id="{64BE5796-E2DE-9B95-D294-1AB7E82FE7E7}" name="Source">
+      <FILE id="LMD9Fd" name="BCMParameter.h" compile="0" resource="0" file="Source/BCMParameter.h"/>
+      <FILE id="HkTAKk" name="BCMParameter.cpp" compile="1" resource="0"
+            file="Source/BCMParameter.cpp"/>
+      <GROUP id="{56BA3D79-F9D5-1CA1-9B57-6128B1A1E3DE}" name="Include">
+        <GROUP id="{0E33D926-BB3A-9A94-5618-F29D1267E249}" name="SonicCore">
+          <FILE id="R3seE2" name="effclass.h" compile="0" resource="0" file="../../External/SonicCore/effclass.h"/>
+        </GROUP>
+      </GROUP>
+      <FILE id="IYccfK" name="BCMMath.h" compile="0" resource="0" file="Source/BCMMath.h"/>
+      <FILE id="Y0Lvzn" name="BCMXml.h" compile="0" resource="0" file="Source/BCMXml.h"/>
+      <FILE id="izgXYx" name="ScopeFX.cpp" compile="1" resource="0" file="Source/ScopeFX.cpp"/>
+      <FILE id="OZIIB9" name="ScopeFX.h" compile="0" resource="0" file="Source/ScopeFX.h"/>
+      <FILE id="BHkvn2" name="ScopeFXParameterDefinitions.h" compile="0"
+            resource="0" file="Source/ScopeFXParameterDefinitions.h"/>
+      <FILE id="dZpJAD" name="ScopeOSCServer.cpp" compile="1" resource="0"
+            file="Source/ScopeOSCServer.cpp"/>
+      <FILE id="byw0xs" name="ScopeOSCServer.h" compile="0" resource="0"
+            file="Source/ScopeOSCServer.h"/>
+    </GROUP>
+  </MAINGROUP>
+  <EXPORTFORMATS>
+    <VS2013 targetFolder="Builds/VisualStudio2013" extraDefs="_XKEYCHECK_H&#10;JUCE_NO_COMPILER_THREAD_LOCAL=1&#10;_CRT_SECURE_NO_DEPRECATE"
+            extraLinkerFlags="/SAFESEH:NO" externalLibraries="${SCOPELIB};"
+            windowsTargetPlatformVersion="8.1">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
+                       isDebug="1" optimisation="1" targetName="ScopeOSCSenderDebug"
+                       headerPath="../../../../External/SonicCore" libraryPath="..\..\..\..\External\SonicCore"
+                       defines="__DLL_EFFECT__&#10;SCOPELIB=ScopeDLLd.lib" postbuildCommand="copy /Y &quot;$(OutDir)\$(TargetFileName)&quot; &quot;C:\Program Files\SCOPE SDK XITE\App\Dll&quot;"
+                       useRuntimeLibDLL="1" debugInformationFormat="ProgramDatabase"
+                       enablePluginBinaryCopyStep="0"/>
+        <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
+                       isDebug="0" optimisation="2" targetName="ScopeOSCSender" headerPath="../../../../External/SonicCore"
+                       libraryPath="..\..\..\..\External\SonicCore" defines="__DLL_EFFECT__&#10;SCOPELIB=ScopeDLL.lib"
+                       useRuntimeLibDLL="1" postbuildCommand="xcopy /Y &quot;$(TargetPath)&quot; &quot;..\..\..\..\Scope DLL\&quot;"
+                       debugInformationFormat="ProgramDatabase" enablePluginBinaryCopyStep="0"
+                       linkTimeOptimisation="1"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_gui_extra" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_events" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_core" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_osc" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_graphics" path="../../../JUCE/modules"/>
+      </MODULEPATHS>
+    </VS2013>
+  </EXPORTFORMATS>
+  <MODULES>
+    <MODULES id="juce_core" showAllCode="1" useLocalCopy="1"/>
+    <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="1" useGlobalPath="0"/>
+    <MODULES id="juce_events" showAllCode="1" useLocalCopy="1"/>
+    <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="1" useGlobalPath="0"/>
+    <MODULES id="juce_gui_basics" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_gui_extra" showAllCode="1" useLocalCopy="1"/>
+    <MODULE id="juce_osc" showAllCode="1" useLocalCopy="1"/>
+  </MODULES>
+  <JUCEOPTIONS JUCE_WEB_BROWSER="disabled" JUCE_ENABLE_LIVE_CONSTANT_EDITOR="disabled"/>
+</JUCERPROJECT>

@@ -54,6 +54,8 @@ using namespace ScopeFXParameterDefinitions;
 
 ScopeFX::ScopeFX() : Effect(&effectDescription)
 {
+	outputParamsInitialised = false;
+
 	#ifdef _WIN32
         Process::setCurrentModuleInstanceHandle(HINST_THISCOMPONENT);
 	#endif
@@ -77,7 +79,9 @@ int ScopeFX::async(PadData** asyncIn,  PadData* /*syncIn*/,
 	for (int i = 0; i < numParameters; i++)
 		currentValues[i] = parameters[i]->getScopeIntValue();
 	
-	asyncOut[OUTPAD_PARAMS].itg = (int)malloc(4 * numParameters);
+	if (!outputParamsInitialised)
+		asyncOut[OUTPAD_PARAMS].itg = (int)malloc(4 * numParameters);
+
 	memcpy((int*)asyncOut[OUTPAD_PARAMS].itg, currentValues, numParameters * 4);
 	
 	return -1;

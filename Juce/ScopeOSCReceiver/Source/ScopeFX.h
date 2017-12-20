@@ -56,6 +56,7 @@ public:
 
 private:	
 	OwnedArray<BCMParameter> parameters;
+	bool outputParamsInitialised;
 };
 
 

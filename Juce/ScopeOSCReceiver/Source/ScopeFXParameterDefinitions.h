@@ -31,7 +31,7 @@
 namespace ScopeFXParameterDefinitions {
 
     static const int numParameters = 16;
-    static const int maxAddrLength = 128;
+    static const int maxAddrLength = 1024;
 
     /** the async input numbers*/
     enum asyncInPads {
