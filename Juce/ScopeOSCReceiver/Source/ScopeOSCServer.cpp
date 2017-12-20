@@ -37,18 +37,21 @@ ScopeOSCServer::~ScopeOSCServer()
 
 void ScopeOSCServer::setLocalPortNumber(int portNumber)
 {
-	if (connect(portNumber))
+	if (portNumber != receivePortNumber && portNumber != 0)
 	{
-		DBG("ScopeSyncOSCServer::setLocalPortNumber - set local port number to: " + String(portNumber));
-		receivePortNumber = portNumber;
-	}
-	else
-	{
-        AlertWindow::showMessageBoxAsync (
-            AlertWindow::WarningIcon,
-            "Connection error",
-            "OSC Error: could not connect to UDP port: " + String(receivePortNumber),
-            "OK");		
+		if (connect(portNumber))
+		{
+			DBG("ScopeSyncOSCServer::setLocalPortNumber - set local port number to: " + String(portNumber));
+			receivePortNumber = portNumber;
+		}
+		else
+		{
+			AlertWindow::showMessageBoxAsync (
+				AlertWindow::WarningIcon,
+				"Connection error",
+				"OSC Error: could not connect to UDP port: " + String(receivePortNumber),
+				"OK");		
+		}
 	}
 }
 

@@ -30,7 +30,7 @@ BCMParameter::BCMParameter(String initialOSCUID)
 {
 	oscUID.addListener(this);
 	oscUID.setValue(initialOSCUID);
-	DBG("BCMParameter::BCMParameter being constructed, there are now " + String(scopeOSCServer.getReferenceCount()) + " references to scopeOSCServer");
+	DBG("BCMParameter::BCMParameter being constructed with initialOSCUID + " + String(initialOSCUID) + ", there are now " + String(scopeOSCServer.getReferenceCount()) + " references to scopeOSCServer");
 }
 
 BCMParameter::~BCMParameter()
