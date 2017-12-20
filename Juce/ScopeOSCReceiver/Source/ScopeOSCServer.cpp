@@ -33,8 +33,6 @@ ScopeOSCServer::ScopeOSCServer()
 
 void ScopeOSCServer::setup()
 {
-	setRemoteHostname("localhost");
-    setRemotePortNumber(8001);		
 	setLocalPortNumber(8000);
 }
 
