@@ -24,18 +24,20 @@
 
 #include "BCMParameter.h"
 #include "BCMMath.h"
-#include "ScopeOSCServer.h"
 
 BCMParameter::BCMParameter(String initialOSCUID)
 	: scopeIntValue(0)
 {
 	oscUID.addListener(this);
 	oscUID.setValue(initialOSCUID);
+	DBG("BCMParameter::BCMParameter being constructed, there are now " + String(scopeOSCServer.getReferenceCount()) + " references to scopeOSCServer");
 }
 
 BCMParameter::~BCMParameter()
 {
-	ScopeOSCServer::getInstance()->unregisterOSCListener(this);
+	oscUID.removeListener(this);
+	scopeOSCServer->unregisterOSCListener(this);
+	DBG("BCMParameter::BCMParameter being destroyed, there are now " + String(scopeOSCServer.getReferenceCount()) + " references to scopeOSCServer");
 };
 
 int BCMParameter::getScopeIntValue() const
@@ -53,7 +55,7 @@ void BCMParameter::valueChanged(Value& valueThatChanged)
 	(void)valueThatChanged;
 
 	// New OSC UID
-	ScopeOSCServer::getInstance()->registerOSCListener(this, getOSCPath());
+	scopeOSCServer->registerOSCListener(this, getOSCPath());
 }
 
 String BCMParameter::getOSCPath() const

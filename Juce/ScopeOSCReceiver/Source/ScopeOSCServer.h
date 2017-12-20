@@ -30,8 +30,7 @@ class ScopeOSCServer : private OSCReceiver
 {
 public:
 	ScopeOSCServer();
-
-	void setup();
+	~ScopeOSCServer();
 
 	// UDP Setup
 	void   setLocalPortNumber(int portNumber);
@@ -45,8 +44,6 @@ public:
 
 	void   registerOSCListener(ListenerWithOSCAddress<RealtimeCallback>* newListener, OSCAddress address);
 	void   unregisterOSCListener(ListenerWithOSCAddress<RealtimeCallback>* listenerToRemove);
-
-	juce_DeclareSingleton (ScopeOSCServer, false)
 
 private:
 	

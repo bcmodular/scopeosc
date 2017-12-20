@@ -26,6 +26,7 @@
 #define BCMPARAMETER_H_INCLUDED
 
 #include <JuceHeader.h>
+#include "ScopeOSCServer.h"
 
 class BCMParameter : public  Value::Listener,
 					 private OSCReceiver::ListenerWithOSCAddress<OSCReceiver::RealtimeCallback>
@@ -45,6 +46,8 @@ private:
 
 	int   scopeIntValue;
 	Value oscUID;
+
+	SharedResourcePointer<ScopeOSCServer> scopeOSCServer;
 };
 
 #endif  // BCMPARAMETER_H_INCLUDED

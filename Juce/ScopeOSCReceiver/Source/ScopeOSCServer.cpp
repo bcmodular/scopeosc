@@ -24,17 +24,16 @@
 
 #include "ScopeOSCServer.h"
 
-juce_ImplementSingleton(ScopeOSCServer)
-
 ScopeOSCServer::ScopeOSCServer()
-{
-	setup();
-}
-
-void ScopeOSCServer::setup()
 {
 	setLocalPortNumber(8000);
 }
+
+ScopeOSCServer::~ScopeOSCServer()
+{
+	disconnect();	
+}
+
 
 void ScopeOSCServer::setLocalPortNumber(int portNumber)
 {
