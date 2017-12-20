@@ -56,7 +56,6 @@ public:
 
 private:	
 	OwnedArray<BCMParameter> parameters;
-	bool outputParamsInitialised;
 
 	static Array<ScopeFX*> scopeFXInstances;     // Tracks instances of this object, so Juce can be shutdown when no more remain
 };

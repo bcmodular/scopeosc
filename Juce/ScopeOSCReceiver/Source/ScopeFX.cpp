@@ -57,7 +57,6 @@ Array<ScopeFX*> ScopeFX::scopeFXInstances;
 ScopeFX::ScopeFX() : Effect(&effectDescription)
 {
 	scopeFXInstances.add(this);
-	outputParamsInitialised = false;
 
 	#ifdef _WIN32
         Process::setCurrentModuleInstanceHandle(HINST_THISCOMPONENT);
@@ -65,12 +64,13 @@ ScopeFX::ScopeFX() : Effect(&effectDescription)
         initialiseJuce_GUI();
 
 	for (int i = 0; i < numParameters; i++)
-		parameters.add(new BCMParameter("/" + String(i)));
+		parameters.add(new BCMParameter("/" + String(i + 1)));
 }
 
 ScopeFX::~ScopeFX()
 {
 	scopeFXInstances.removeAllInstancesOf(this);
+
 	if (scopeFXInstances.isEmpty())
 	{
 		shutdownJuce_GUI();
@@ -80,20 +80,12 @@ ScopeFX::~ScopeFX()
 int ScopeFX::async(PadData** asyncIn,  PadData* /*syncIn*/,
                    PadData*  asyncOut, PadData* /*syncOut*/)
 {
-	(void)asyncIn;
-
-	int currentValues[numParameters] = {};
+	SharedResourcePointer<ScopeOSCServer> scopeOSCServer;
+	scopeOSCServer->setLocalPortNumber(asyncIn[INPAD_LISTENPORT]->itg);
 
 	for (int i = 0; i < numParameters; i++)
-		currentValues[i] = parameters[i]->getScopeIntValue();
-	
-	if (!outputParamsInitialised)
-		asyncOut[OUTPAD_PARAMS].itg = (int)malloc(4 * numParameters);
-
-	outputParamsInitialised = true;
-
-	memcpy((int*)asyncOut[OUTPAD_PARAMS].itg, currentValues, numParameters * 4);
-	
+		asyncOut[i].itg = parameters[i]->getScopeIntValue();
+		
 	return -1;
 }
 
