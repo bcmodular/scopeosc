@@ -22,24 +22,17 @@
  *  Will Ellis
  */
 
-#include "ScopeOSCServer.h"
+#include "ScopeOSCSender.h"
 
-juce_ImplementSingleton(ScopeOSCServer)
-
-ScopeOSCServer::ScopeOSCServer()
+ScopeOSCSender::ScopeOSCSender()
 {
-	setup();
-}
-
-void ScopeOSCServer::setup()
-{
-	setRemoteHostname("localhost");
+	setRemoteHostname("127.0.0.1");
     setRemotePortNumber(8000);
 }
 
-void ScopeOSCServer::setRemoteHostname(String hostname)
+void ScopeOSCSender::setRemoteHostname(String hostname)
 {
-	if (hostname.compare(remoteHostname) != 0 && hostname.isNotEmpty())
+	if (hostname.compare(remoteHostname) != 0 && hostname != "0.0.0.0")
 	{
 		DBG("ScopeSyncOSCServer::setRemoteHostname - changed remote hostname to: " + hostname);
 		remoteHostname = hostname;
@@ -47,7 +40,7 @@ void ScopeOSCServer::setRemoteHostname(String hostname)
 	}
 }
 
-void ScopeOSCServer::setRemotePortNumber(int portNumber)
+void ScopeOSCSender::setRemotePortNumber(int portNumber)
 {
 	if (portNumber != remotePortNumber && portNumber != 0)
 	{
@@ -57,7 +50,14 @@ void ScopeOSCServer::setRemotePortNumber(int portNumber)
 	}
 }
 
-bool ScopeOSCServer::sendMessage(const OSCAddressPattern pattern, int valueToSend)
+String ScopeOSCSender::getOSCPath(int parameterNumber) const
+{
+	String oscPath("/" + deviceInstance.toString() + "/" + deviceUID.toString() + "/" + parameterGroup.toString() + "/" + String(parameterNumber));
+	DBG("BCMParameter::getOSCPath: returning " + oscPath);
+	return oscPath;
+}
+
+bool ScopeOSCSender::sendMessage(int parameterNumber, int valueToSend)
 {
 
 	if (remoteChanged) {
@@ -75,7 +75,7 @@ bool ScopeOSCServer::sendMessage(const OSCAddressPattern pattern, int valueToSen
 		}
     }
 
-	OSCMessage message(pattern);
+	OSCMessage message(getOSCPath(parameterNumber));
 	message.addInt32(valueToSend);
 
 	sender.send(message);

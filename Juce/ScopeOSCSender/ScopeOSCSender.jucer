@@ -6,6 +6,10 @@
               splashScreenColour="Dark" cppLanguageStandard="11" companyCopyright="">
   <MAINGROUP id="NHuEI4" name="ScopeOSCSender">
     <GROUP id="{64BE5796-E2DE-9B95-D294-1AB7E82FE7E7}" name="Source">
+      <FILE id="qIDSD0" name="ScopeOSCSender.cpp" compile="1" resource="0"
+            file="Source/ScopeOSCSender.cpp"/>
+      <FILE id="MhcbCg" name="ScopeOSCSender.h" compile="0" resource="0"
+            file="Source/ScopeOSCSender.h"/>
       <FILE id="LMD9Fd" name="BCMParameter.h" compile="0" resource="0" file="Source/BCMParameter.h"/>
       <FILE id="HkTAKk" name="BCMParameter.cpp" compile="1" resource="0"
             file="Source/BCMParameter.cpp"/>
@@ -14,16 +18,10 @@
           <FILE id="R3seE2" name="effclass.h" compile="0" resource="0" file="../../External/SonicCore/effclass.h"/>
         </GROUP>
       </GROUP>
-      <FILE id="IYccfK" name="BCMMath.h" compile="0" resource="0" file="Source/BCMMath.h"/>
-      <FILE id="Y0Lvzn" name="BCMXml.h" compile="0" resource="0" file="Source/BCMXml.h"/>
       <FILE id="izgXYx" name="ScopeFX.cpp" compile="1" resource="0" file="Source/ScopeFX.cpp"/>
       <FILE id="OZIIB9" name="ScopeFX.h" compile="0" resource="0" file="Source/ScopeFX.h"/>
       <FILE id="BHkvn2" name="ScopeFXParameterDefinitions.h" compile="0"
             resource="0" file="Source/ScopeFXParameterDefinitions.h"/>
-      <FILE id="dZpJAD" name="ScopeOSCServer.cpp" compile="1" resource="0"
-            file="Source/ScopeOSCServer.cpp"/>
-      <FILE id="byw0xs" name="ScopeOSCServer.h" compile="0" resource="0"
-            file="Source/ScopeOSCServer.h"/>
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>

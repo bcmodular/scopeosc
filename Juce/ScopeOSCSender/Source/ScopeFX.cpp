@@ -27,7 +27,7 @@
  */
 
 #include "ScopeFX.h"
-#include "ScopeOSCServer.h"
+#include "ScopeOSCSender.h"
 
 #ifdef _WIN32
 #include <Windows.h>
@@ -61,8 +61,10 @@ ScopeFX::ScopeFX() : Effect(&effectDescription)
 	#endif
         initialiseJuce_GUI();
 
+	scopeOSCSender = new ScopeOSCSender();
+
 	for (int i = 0; i < numParameters; i++)
-		parameters.add(new BCMParameter(0, "/" + String(i)));
+		parameters.add(new BCMParameter(i+1, scopeOSCSender));
 }
 
 ScopeFX::~ScopeFX()
@@ -80,27 +82,18 @@ int ScopeFX::async(PadData** asyncIn,  PadData* /*syncIn*/,
 {
 	(void)asyncOut;
 
-	ScopeOSCServer* scopeOSCServer = ScopeOSCServer::getInstance();
+	scopeOSCSender->setRemotePortNumber(asyncIn[INPAD_REMOTEPORT]->itg);
+	scopeOSCSender->setRemoteHostName(asyncIn[INPAD_REMOTEHOST_OCT1]->itg, 
+									  asyncIn[INPAD_REMOTEHOST_OCT2]->itg,
+									  asyncIn[INPAD_REMOTEHOST_OCT3]->itg, 
+									  asyncIn[INPAD_REMOTEHOST_OCT4]->itg);
 
-//	char* remoteHostname = asyncIn[INPAD_REMOTEHOST]->str;
-
-//	if (remoteHostname != nullptr)
-//		scopeOSCServer->setRemoteHostname(String(remoteHostname));
-
-	int remotePortNumber = asyncIn[INPAD_REMOTEPORT]->itg;
-	scopeOSCServer->setRemotePortNumber(remotePortNumber);
-
-	int* parameterArray = (int*)asyncIn[INPAD_PARAMS]->itg;
-
-	int i = 0;
-	
-	while (i < numParameters)
-	{
-		if (parameterArray != nullptr)
-			parameters[i]->setScopeIntValue(parameterArray[i]);
-
-		i++;
-	}
+	scopeOSCSender->setDeviceInstance(asyncIn[INPAD_DEVICE_INSTANCE]->itg);
+	scopeOSCSender->setDeviceUID(asyncIn[INPAD_DEVICE_UID]->itg);
+	scopeOSCSender->setParameterGroup(asyncIn[INPAD_PARAMETER_GROUP]->itg);
+		
+	for (int i = 0; i < numParameters; i++)
+		parameters[i]->setScopeIntValue(asyncIn[i]->itg);
 
 	return -1;
 }

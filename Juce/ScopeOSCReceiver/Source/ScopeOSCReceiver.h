@@ -22,8 +22,8 @@
  *  Will Ellis
  */
 
-#ifndef SCOPEOSCSERVER_H_INCLUDED
-#define SCOPEOSCSERVER_H_INCLUDED
+#ifndef SCOPEOSCRECEIVER_H_INCLUDED
+#define SCOPEOSCRECEIVER_H_INCLUDED
 
 #include <JuceHeader.h>
 class ScopeOSCReceiver : private OSCReceiver
@@ -48,9 +48,7 @@ private:
 	int	   remotePortNumber;
 	bool   remoteChanged;
 
-	OSCSender sender;
-
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ScopeOSCReceiver)
 };
 
-#endif  // SCOPEOSCSERVER_H_INCLUDED
+#endif  // SCOPEOSCRECEIVER_H_INCLUDED

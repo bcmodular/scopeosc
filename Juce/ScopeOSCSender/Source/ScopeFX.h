@@ -34,6 +34,7 @@
 #include "../../../External/SonicCore/effclass.h"
 #include "ScopeFXParameterDefinitions.h"
 #include "BCMParameter.h"
+#include "ScopeOSCSender.h"
 
 using namespace ScopeFXParameterDefinitions;
 
@@ -54,7 +55,8 @@ public:
     int  async (PadData** asyncIn,  PadData* syncIn,
                 PadData*  asyncOut, PadData* syncOut);
 
-private:	
+private:
+	ScopedPointer<ScopeOSCSender> scopeOSCSender;
 	OwnedArray<BCMParameter> parameters;
 
 	static Array<ScopeFX*> scopeFXInstances;     // Tracks instances of this object, so Juce can be shutdown when no more remain

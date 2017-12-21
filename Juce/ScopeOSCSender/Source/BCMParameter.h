@@ -26,20 +26,22 @@
 #define BCMPARAMETER_H_INCLUDED
 
 #include <JuceHeader.h>
+#include "ScopeOSCSender.h"
 
 class BCMParameter : public Value::Listener
 {
 public:
-    BCMParameter(int initialScopeIntValue, String initialOSCUID);
+    BCMParameter(int paramNumber, ScopeOSCSender* sender);
     ~BCMParameter();
 
     void setScopeIntValue(int newValue);
 
 private:
 	void  valueChanged(Value& valueThatChanged) override;
+	ScopeOSCSender* scopeOSCSender;
 	
-	Value  scopeIntValue;
-	String oscUID;
+	Value scopeIntValue;
+	Value parameterNumber;
 };
 
 #endif  // BCMPARAMETER_H_INCLUDED

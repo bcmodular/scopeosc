@@ -35,10 +35,30 @@ namespace ScopeFXParameterDefinitions {
 
     /** the async input numbers*/
     enum asyncInPads {
-		INPAD_REMOTEHOST,
+		INPAD_PARAM1,
+        INPAD_PARAM2,
+        INPAD_PARAM3,
+        INPAD_PARAM4,
+        INPAD_PARAM5,
+        INPAD_PARAM6,
+        INPAD_PARAM7,
+        INPAD_PARAM8,
+        INPAD_PARAM9,
+        INPAD_PARAM10,
+        INPAD_PARAM11,
+        INPAD_PARAM12,
+        INPAD_PARAM13,
+        INPAD_PARAM14,
+        INPAD_PARAM15,
+        INPAD_PARAM16,
+		INPAD_DEVICE_INSTANCE,
+		INPAD_DEVICE_UID,
+		INPAD_PARAMETER_GROUP,
+		INPAD_REMOTEHOST_OCT1,
+		INPAD_REMOTEHOST_OCT2,
+		INPAD_REMOTEHOST_OCT3,
+		INPAD_REMOTEHOST_OCT4,
 		INPAD_REMOTEPORT,
-		INPAD_PARAMS,
-//		INPAD_ADDRS,
 		NUM_ASYNCINPADS
     };
 
@@ -59,10 +79,30 @@ namespace ScopeFXParameterDefinitions {
    //-------------------------- Pad Definitions -------------------------------
 
     static PadType inputPadTypes[NUM_ASYNCINPADS + NUM_SYNCINPADS] = {
-		{ DTYPE_STRING, 0, 0xFFFFFFFF },                 // INPAD_REMOTEHOST
-		{ DTYPE_INT,    FRAC_MIN, FRAC_MAX },            // INPAD_REMOTEPORT
-//		{ DTYPE_STRING, 0, 0xFFFFFFFF, numParameters },  // INPAD_ADDRS
-		{ DTYPE_INT, FRAC_MIN, FRAC_MAX, numParameters } // INPAD_PARAMS
+		{ DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM1
+		{ DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM2
+		{ DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM3
+		{ DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM4
+		{ DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM5
+		{ DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM6
+		{ DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM7
+		{ DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM8
+		{ DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM9
+		{ DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM10
+		{ DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM11
+		{ DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM12
+		{ DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM13
+		{ DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM14
+		{ DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM15
+		{ DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM16
+		{ DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_DEVICE_INSTANCE
+		{ DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_DEVICE_UID
+		{ DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAMETER_GROUP
+		{ DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_REMOTEHOST_OCT1
+		{ DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_REMOTEHOST_OCT2
+		{ DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_REMOTEHOST_OCT3
+		{ DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_REMOTEHOST_OCT4
+		{ DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_REMOTEPORT
 	};
 
 //    static PadType outputPadTypes[NUM_ASYNCOUTPADS + NUM_SYNCOUTPADS] = {
@@ -71,9 +111,30 @@ namespace ScopeFXParameterDefinitions {
 
     //--------------------------------------------------------------------------
     static nameDesc inputNameDescs[NUM_ASYNCINPADS + NUM_SYNCINPADS] = {
-		{ "Host", "OSC Remote Hostname" },
-		{ "Port", "OSC Remote Port" },
-        { "In",   "Input Parameters" },
+		{ "I1",   "Parameter Input 1" },
+		{ "I2",   "Parameter Input 2" },
+		{ "I3",   "Parameter Input 3" },
+		{ "I4",   "Parameter Input 4" },
+		{ "I5",   "Parameter Input 5" },
+		{ "I6",   "Parameter Input 6" },
+		{ "I7",   "Parameter Input 7" },
+		{ "I8",   "Parameter Input 8" },
+		{ "I9",   "Parameter Input 9" },
+		{ "I10",  "Parameter Input 10" },
+		{ "I11",  "Parameter Input 11" },
+		{ "I12",  "Parameter Input 12" },
+		{ "I13",  "Parameter Input 13" },
+		{ "I14",  "Parameter Input 14" },
+		{ "I15",  "Parameter Input 15" },
+		{ "I16",  "Parameter Input 16" },
+		{ "Inst", "Device Instance" },
+		{ "DUID", "Device UID" },
+		{ "PmGp", "Parameter Group" },
+		{ "HoO1", "Remote Host Octet 1" },
+		{ "HoO2", "Remote Host Octet 2" },
+		{ "HoO3", "Remote Host Octet 3" },
+		{ "HoO4", "Remote Host Octet 4" },
+		{ "Port", "Remote Port" },
 	};
 
 //    static nameDesc outputNameDescs[NUM_ASYNCOUTPADS + NUM_SYNCOUTPADS] = {
