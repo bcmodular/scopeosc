@@ -26,13 +26,13 @@
 #define BCMPARAMETER_H_INCLUDED
 
 #include <JuceHeader.h>
-#include "ScopeOSCServer.h"
+#include "ScopeOSCReceiver.h"
 
 class BCMParameter : public  Value::Listener,
 					 private OSCReceiver::ListenerWithOSCAddress<OSCReceiver::RealtimeCallback>
 {
 public:
-    BCMParameter(String initialOSCUID);
+    BCMParameter(int paramNumber);
     ~BCMParameter();
 
 	int  getScopeIntValue() const;
@@ -40,14 +40,22 @@ public:
 
 	String getOSCPath() const;
 
+	void setDeviceInstance (int newValue) {deviceInstance = newValue;}
+	void setDeviceUID      (int newValue) {deviceUID = newValue;}
+	void setParameterGroup (int newValue) {parameterGroup = newValue;}
+
 private:
 	void  valueChanged(Value& valueThatChanged) override;
-	void  oscMessageReceived (const OSCMessage& message) override;
+	void  oscMessageReceived(const OSCMessage& message) override;
 
 	int   scopeIntValue;
-	Value oscUID;
+	
+	Value deviceInstance;
+	Value deviceUID;
+	Value parameterGroup;
+	Value parameterNumber;
 
-	SharedResourcePointer<ScopeOSCServer> scopeOSCServer;
+	SharedResourcePointer<ScopeOSCReceiver> scopeOSCReceiver;
 };
 
 #endif  // BCMPARAMETER_H_INCLUDED

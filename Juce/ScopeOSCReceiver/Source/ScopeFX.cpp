@@ -27,7 +27,6 @@
  */
 
 #include "ScopeFX.h"
-#include "ScopeOSCServer.h"
 
 #ifdef _WIN32
 #include <Windows.h>
@@ -64,7 +63,7 @@ ScopeFX::ScopeFX() : Effect(&effectDescription)
         initialiseJuce_GUI();
 
 	for (int i = 0; i < numParameters; i++)
-		parameters.add(new BCMParameter("/" + String(i + 1)));
+		parameters.add(new BCMParameter(i + 1));
 }
 
 ScopeFX::~ScopeFX()
@@ -80,11 +79,14 @@ ScopeFX::~ScopeFX()
 int ScopeFX::async(PadData** asyncIn,  PadData* /*syncIn*/,
                    PadData*  asyncOut, PadData* /*syncOut*/)
 {
-	SharedResourcePointer<ScopeOSCServer> scopeOSCServer;
-	scopeOSCServer->setLocalPortNumber(asyncIn[INPAD_LISTENPORT]->itg);
-
 	for (int i = 0; i < numParameters; i++)
+	{
+		parameters[i]->setDeviceInstance(asyncIn[INPAD_DEVICE_INSTANCE]->itg);
+		parameters[i]->setDeviceUID(asyncIn[INPAD_DEVICE_UID]->itg);
+		parameters[i]->setParameterGroup(asyncIn[INPAD_PARAMETER_GROUP]->itg);
+		
 		asyncOut[i].itg = parameters[i]->getScopeIntValue();
+	}
 		
 	return -1;
 }

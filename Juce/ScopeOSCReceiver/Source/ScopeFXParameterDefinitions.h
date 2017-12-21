@@ -31,12 +31,12 @@
 namespace ScopeFXParameterDefinitions {
 
     static const int numParameters = 16;
-    static const int maxAddrLength = 1024;
 
     /** the async input numbers*/
     enum asyncInPads {
-		INPAD_LISTENPORT,
-//		INPAD_ADDRS,
+		INPAD_DEVICE_INSTANCE,
+		INPAD_DEVICE_UID,
+		INPAD_PARAMETER_GROUP,
 		NUM_ASYNCINPADS
     };
 
@@ -73,8 +73,9 @@ namespace ScopeFXParameterDefinitions {
    //-------------------------- Pad Definitions -------------------------------
 
     static PadType inputPadTypes[NUM_ASYNCINPADS + NUM_SYNCINPADS] = {
-		{ DTYPE_INT,    FRAC_MIN, FRAC_MAX },           // INPAD_LISTENPORT
-//      { DTYPE_STRING, 0, 0xFFFFFFFF, numParameters }  // INPAD_ADDRS
+		{ DTYPE_INT,    FRAC_MIN, FRAC_MAX },           // INPAD_DEVICE_INSTANCE
+		{ DTYPE_INT,    FRAC_MIN, FRAC_MAX },           // INPAD_DEVICE_UID
+		{ DTYPE_INT,    FRAC_MIN, FRAC_MAX },           // INPAD_PARAMETER_GROUP
 	};
 
     static PadType outputPadTypes[NUM_ASYNCOUTPADS + NUM_SYNCOUTPADS] = {
@@ -98,8 +99,9 @@ namespace ScopeFXParameterDefinitions {
 
     //--------------------------------------------------------------------------
     static nameDesc inputNameDescs[NUM_ASYNCINPADS + NUM_SYNCINPADS] = {
-		{ "Port", "OSC Listen Port" },
-//        { "Addr", "OSC Addresses" }
+		{ "Inst", "Device Instance" },
+		{ "DUID", "Device UID" },
+		{ "PmGp", "Parameter Group" },
 	};
 
     static nameDesc outputNameDescs[NUM_ASYNCOUTPADS + NUM_SYNCOUTPADS] = {

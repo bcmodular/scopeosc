@@ -26,22 +26,15 @@
 #define SCOPEOSCSERVER_H_INCLUDED
 
 #include <JuceHeader.h>
-class ScopeOSCServer : private OSCReceiver
+class ScopeOSCReceiver : private OSCReceiver
 {
 public:
-	ScopeOSCServer();
-	~ScopeOSCServer();
+	ScopeOSCReceiver();
+	~ScopeOSCReceiver();
 
 	// UDP Setup
 	void   setLocalPortNumber(int portNumber);
 	
-	void   setRemoteHostname(String hostname);
-	String getRemoteHostname() const;
-	void   setRemotePortNumber(int portNumber);
-	int    getRemotePortNumber() const;
-
-	bool   sendMessage(const OSCAddressPattern pattern, float valueToSend);
-
 	void   registerOSCListener(ListenerWithOSCAddress<RealtimeCallback>* newListener, OSCAddress address);
 	void   unregisterOSCListener(ListenerWithOSCAddress<RealtimeCallback>* listenerToRemove);
 
@@ -57,7 +50,7 @@ private:
 
 	OSCSender sender;
 
-	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ScopeOSCServer)
+	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ScopeOSCReceiver)
 };
 
 #endif  // SCOPEOSCSERVER_H_INCLUDED
