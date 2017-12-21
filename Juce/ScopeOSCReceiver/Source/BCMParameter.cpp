@@ -23,21 +23,28 @@
  */
 
 #include "BCMParameter.h"
-#include "BCMMath.h"
 
-BCMParameter::BCMParameter(String initialOSCUID)
-	: scopeIntValue(0)
+BCMParameter::BCMParameter(int paramNumber)
+	: scopeIntValue(0),
+	  parameterNumber(paramNumber)
 {
-	oscUID.addListener(this);
-	oscUID.setValue(initialOSCUID);
-	DBG("BCMParameter::BCMParameter being constructed with initialOSCUID + " + String(initialOSCUID) + ", there are now " + String(scopeOSCServer.getReferenceCount()) + " references to scopeOSCServer");
+	deviceInstance.addListener(this);
+	deviceUID.addListener(this);
+	parameterGroup.addListener(this);
+	parameterNumber.addListener(this);
+	scopeOSCReceiver->registerOSCListener(this, getOSCPath());
+	DBG("BCMParameter::BCMParameter - there are now " + String(scopeOSCReceiver.getReferenceCount()) + " references to scopeOSCReceiver");
 }
 
 BCMParameter::~BCMParameter()
 {
-	oscUID.removeListener(this);
-	scopeOSCServer->unregisterOSCListener(this);
-	DBG("BCMParameter::BCMParameter being destroyed, there are now " + String(scopeOSCServer.getReferenceCount()) + " references to scopeOSCServer");
+	deviceInstance.removeListener(this);
+	deviceUID.removeListener(this);
+	parameterGroup.removeListener(this);
+	parameterNumber.removeListener(this);
+	
+	scopeOSCReceiver->unregisterOSCListener(this);
+	DBG("BCMParameter::BCMParameter being destroyed, there are now " + String(scopeOSCReceiver.getReferenceCount()) + " references to scopeOSCReceiver");
 };
 
 int BCMParameter::getScopeIntValue() const
@@ -55,12 +62,14 @@ void BCMParameter::valueChanged(Value& valueThatChanged)
 	(void)valueThatChanged;
 
 	// New OSC UID
-	scopeOSCServer->registerOSCListener(this, getOSCPath());
+	scopeOSCReceiver->registerOSCListener(this, getOSCPath());
 }
 
 String BCMParameter::getOSCPath() const
 {
-	return oscUID.getValue();
+	String oscPath("/" + deviceInstance.toString() + "/" + deviceUID.toString() + "/" + parameterGroup.toString() + "/" + parameterNumber.toString());
+	DBG("BCMParameter::getOSCPath: returning " + oscPath);
+	return oscPath;
 }
     
 void BCMParameter::oscMessageReceived (const OSCMessage& message)

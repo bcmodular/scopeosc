@@ -52,6 +52,7 @@ BOOL CALLBACK EnumWindowsProc(HWND hwnd, LPARAM /* lParam */)
 #endif
 
 using namespace ScopeFXParameterDefinitions;
+Array<ScopeFX*> ScopeFX::scopeFXInstances;
 
 ScopeFX::ScopeFX() : Effect(&effectDescription)
 {
@@ -66,6 +67,12 @@ ScopeFX::ScopeFX() : Effect(&effectDescription)
 
 ScopeFX::~ScopeFX()
 {
+	scopeFXInstances.removeAllInstancesOf(this);
+
+	if (scopeFXInstances.isEmpty())
+	{
+		shutdownJuce_GUI();
+	}
 }
 
 int ScopeFX::async(PadData** asyncIn,  PadData* /*syncIn*/,
