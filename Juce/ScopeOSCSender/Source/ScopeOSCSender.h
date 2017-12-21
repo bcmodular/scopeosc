@@ -22,24 +22,27 @@
  *  Will Ellis
  */
 
-#ifndef SCOPEOSCSERVER_H_INCLUDED
-#define SCOPEOSCSERVER_H_INCLUDED
+#ifndef SCOPEOSCSENDER_H_INCLUDED
+#define SCOPEOSCSENDER_H_INCLUDED
 
 #include <JuceHeader.h>
-class ScopeOSCServer : private OSCReceiver
+class ScopeOSCSender
 {
 public:
-	ScopeOSCServer();
-
-	void setup();
+	ScopeOSCSender();
 
 	// UDP Setup
 	void   setRemoteHostname(String hostname);
 	void   setRemotePortNumber(int portNumber);
 	
-	bool   sendMessage(const OSCAddressPattern pattern, int valueToSend);
+	bool   sendMessage(int parameterNumber, int valueToSend);
 
-	juce_DeclareSingleton (ScopeOSCServer, false)
+	String getOSCPath(int parameterNumber) const;
+
+	void setDeviceInstance(int newValue) {deviceInstance = newValue;}
+	void setDeviceUID     (int newValue) {deviceUID = newValue;}
+	void setParameterGroup(int newValue) {parameterGroup = newValue;}
+	void setRemoteHostName(int oct1, int oct2, int oct3, int oct4) {setRemoteHostname(String(oct1) + "." + String(oct2) + "." + String(oct3) + "." + String(oct4));}
 
 private:
 	
@@ -51,7 +54,11 @@ private:
 
 	OSCSender sender;
 
-	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ScopeOSCServer)
+	Value deviceInstance;
+	Value deviceUID;
+	Value parameterGroup;
+
+	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ScopeOSCSender)
 };
 
-#endif  // SCOPEOSCSERVER_H_INCLUDED
+#endif  // SCOPEOSCSENDER_H_INCLUDED

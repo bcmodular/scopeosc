@@ -23,12 +23,13 @@
  */
 
 #include "BCMParameter.h"
-#include "BCMMath.h"
-#include "ScopeOSCServer.h"
+#include "ScopeOSCSender.h"
 
-BCMParameter::BCMParameter(int initialScopeIntValue, String initialOSCUID)
+BCMParameter::BCMParameter(int paramNumber, ScopeOSCSender* sender)
+	: scopeOSCSender(sender),
+	  parameterNumber(paramNumber)
 {
-	scopeIntValue.setValue(initialScopeIntValue);
+	scopeIntValue = 0;
 	scopeIntValue.addListener(this);
 }
 
@@ -38,13 +39,16 @@ BCMParameter::~BCMParameter()
 
 void BCMParameter::setScopeIntValue(int newValue)
 {
-	DBG("BCMParameter::setScopeIntValue - setting value to: " + String(newValue));
-	scopeIntValue = newValue;
+	if (scopeIntValue != newValue)
+	{
+		DBG("BCMParameter::setScopeIntValue - setting value to: " + String(newValue));
+		scopeIntValue = newValue;
+	}
 }
 
 void BCMParameter::valueChanged(Value& valueThatChanged)
 {	
 	(void)valueThatChanged;
 
-	ScopeOSCServer::getInstance()->sendMessage(oscUID, int(scopeIntValue.getValue()));	
+	scopeOSCSender->sendMessage(int(parameterNumber.getValue()), int(scopeIntValue.getValue()));	
 }
