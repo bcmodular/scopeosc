@@ -54,7 +54,7 @@ Name: "ScopeDLL"; Description: "Scope Module"; Types: full typical compact
 Name: "ScopeSDKDLL"; Description: "Scope SDK Module"; Types: full
 
 [Run]
-Filename: "{tmp}\vcredist_x86.exe"; Parameters: "/passive /Q:a /c:""msiexec /qb /i vcredist.msi"" "; StatusMsg: Installing 2010 RunTime...
+Filename: "{tmp}\vcredist_x86.exe"; Parameters: "/passive /Q:a /c:""msiexec /qb /i vcredist.msi"" "; StatusMsg: Installing 2013 RunTime...
 
 [Registry]
 Root: HKCU; Subkey: "Software\ScopeOSC"; ValueType: string; ValueName: "InstallLocation"; ValueData: "{app}"
