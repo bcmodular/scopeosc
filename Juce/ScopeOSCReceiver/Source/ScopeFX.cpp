@@ -84,6 +84,7 @@ int ScopeFX::async(PadData** asyncIn,  PadData* /*syncIn*/,
 		parameters[i]->setDeviceInstance(asyncIn[INPAD_DEVICE_INSTANCE]->itg);
 		parameters[i]->setDeviceUID(asyncIn[INPAD_DEVICE_UID]->itg);
 		parameters[i]->setParameterGroup(asyncIn[INPAD_PARAMETER_GROUP]->itg);
+		parameters[i]->toggleListening(asyncIn[INPAD_LISTENING]->itg);
 		
 		asyncOut[i].itg = parameters[i]->getScopeIntValue();
 	}
