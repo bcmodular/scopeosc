@@ -54,7 +54,8 @@ BOOL CALLBACK EnumWindowsProc(HWND hwnd, LPARAM /* lParam */)
 using namespace ScopeFXParameterDefinitions;
 Array<ScopeFX*> ScopeFX::scopeFXInstances;
 
-ScopeFX::ScopeFX() : Effect(&effectDescription)
+ScopeFX::ScopeFX()
+	: Effect(&effectDescription)
 {
 	#ifdef _WIN32
         Process::setCurrentModuleInstanceHandle(HINST_THISCOMPONENT);
@@ -91,9 +92,13 @@ int ScopeFX::async(PadData** asyncIn,  PadData* /*syncIn*/,
 	scopeOSCSender->setDeviceInstance(asyncIn[INPAD_DEVICE_INSTANCE]->itg);
 	scopeOSCSender->setDeviceUID(asyncIn[INPAD_DEVICE_UID]->itg);
 	scopeOSCSender->setParameterGroup(asyncIn[INPAD_PARAMETER_GROUP]->itg);
-		
+	
 	for (int i = 0; i < numParameters; i++)
+	{
 		parameters[i]->setScopeIntValue(asyncIn[i]->itg);
+		parameters[i]->setSnapshotCounter(asyncIn[INPAD_SNAPSHOT_COUNTER]->itg);
+		parameters[i]->toggleMessageSending(asyncIn[INPAD_SEND_MESSAGES]->itg);
+	}
 
 	return -1;
 }

@@ -35,13 +35,17 @@ public:
     ~BCMParameter();
 
     void setScopeIntValue(int newValue);
+	void setSnapshotCounter(int newValue);
+	void toggleMessageSending(int sending) { sendMessages = (sending == 0) ? false : true; }
 
 private:
 	void  valueChanged(Value& valueThatChanged) override;
 	ScopeOSCSender* scopeOSCSender;
 	
+	int   parameterNumber;
+	bool  sendMessages;
 	Value scopeIntValue;
-	Value parameterNumber;
+	Value snapshotCounter;
 };
 
 #endif  // BCMPARAMETER_H_INCLUDED

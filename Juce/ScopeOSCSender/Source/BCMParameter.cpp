@@ -27,28 +27,37 @@
 
 BCMParameter::BCMParameter(int paramNumber, ScopeOSCSender* sender)
 	: scopeOSCSender(sender),
-	  parameterNumber(paramNumber)
+	  parameterNumber(paramNumber),
+	  sendMessages(true)
 {
 	scopeIntValue = 0;
 	scopeIntValue.addListener(this);
+
+	snapshotCounter = 0;
+	snapshotCounter.addListener(this);
 }
 
 BCMParameter::~BCMParameter()
 {
+	scopeIntValue.removeListener(this);
+	snapshotCounter.removeListener(this);
 };
 
 void BCMParameter::setScopeIntValue(int newValue)
 {
-	if (scopeIntValue != newValue)
-	{
-		DBG("BCMParameter::setScopeIntValue - setting value to: " + String(newValue));
-		scopeIntValue = newValue;
-	}
+	scopeIntValue.setValue(newValue);
+}
+
+void BCMParameter::setSnapshotCounter(int newValue)
+{
+	snapshotCounter.setValue(newValue);
 }
 
 void BCMParameter::valueChanged(Value& valueThatChanged)
 {	
 	(void)valueThatChanged;
-
-	scopeOSCSender->sendMessage(int(parameterNumber.getValue()), int(scopeIntValue.getValue()));	
+	
+	// Send a message either if the value has changed, or if the snapshot counter has incremented
+	if (sendMessages)
+		scopeOSCSender->sendMessage(parameterNumber, int(scopeIntValue.getValue()));	
 }
