@@ -59,6 +59,8 @@ namespace ScopeFXParameterDefinitions {
 		INPAD_REMOTEHOST_OCT3,
 		INPAD_REMOTEHOST_OCT4,
 		INPAD_REMOTEPORT,
+		INPAD_SNAPSHOT_COUNTER,
+		INPAD_SEND_MESSAGES,
 		NUM_ASYNCINPADS
     };
 
@@ -103,6 +105,8 @@ namespace ScopeFXParameterDefinitions {
 		{ DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_REMOTEHOST_OCT3
 		{ DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_REMOTEHOST_OCT4
 		{ DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_REMOTEPORT
+		{ DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_SNAPSHOT_COUNTER
+		{ DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_SEND_MESSAGES
 	};
 
 //    static PadType outputPadTypes[NUM_ASYNCOUTPADS + NUM_SYNCOUTPADS] = {
@@ -135,6 +139,8 @@ namespace ScopeFXParameterDefinitions {
 		{ "HoO3", "Remote Host Octet 3" },
 		{ "HoO4", "Remote Host Octet 4" },
 		{ "Port", "Remote Port" },
+		{ "Snap", "Snapshot Counter" },
+		{ "Send", "Send Messages" },
 	};
 
 //    static nameDesc outputNameDescs[NUM_ASYNCOUTPADS + NUM_SYNCOUTPADS] = {
