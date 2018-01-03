@@ -76,13 +76,15 @@ void BCMParameter::oscMessageReceived (const OSCMessage& message)
 {
 	DBG("BCMParameter::oscMessageReceived - " + message.getAddressPattern().toString());
 
-	if (message.size() == 1 && message[0].isInt32())
+	if (!listening)
+		DBG("BCMParameter::oscMessageReceived - ignoring OSC message");
+	else if (message.size() == 1 && message[0].isInt32())
 	{
 		int newValue = message[0].getInt32();
 		setScopeIntValue(newValue);
 		DBG("BCMParameter::oscMessageReceived - set value to: " + String(newValue));
 	}
 	else
-		DBG("BCMParameter::handleOSCMessage - received other OSC message");
+		DBG("BCMParameter::oscMessageReceived - received other OSC message");
 }
 
