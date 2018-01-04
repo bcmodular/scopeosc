@@ -48,6 +48,8 @@ private:
 	int	   remotePortNumber;
 	bool   remoteChanged;
 
+	ScopedPointer<PropertiesFile> properties;
+
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ScopeOSCReceiver)
 };
 
