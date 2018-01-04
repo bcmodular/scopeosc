@@ -26,7 +26,26 @@
 
 ScopeOSCReceiver::ScopeOSCReceiver()
 {
-	setLocalPortNumber(8000);
+	const String filename ("ScopeOSC");
+
+    PropertiesFile::Options options;
+    options.applicationName     = filename;
+    options.folderName          = ProjectInfo::projectName;
+    options.filenameSuffix      = "settings";
+    options.osxLibrarySubFolder = "Application Support";
+    
+    properties = new PropertiesFile(options);
+
+	int localPortNumber = 8000;
+
+	if (properties->isValidFile())
+	{
+		localPortNumber = properties->getIntValue("localPortNumber", 8000);
+		properties->setValue("localPortNumber", localPortNumber);
+		properties->saveIfNeeded();
+	}
+
+	setLocalPortNumber(localPortNumber);
 }
 
 ScopeOSCReceiver::~ScopeOSCReceiver()
