@@ -27,12 +27,13 @@
 
 #include <JuceHeader.h>
 #include "ScopeOSCReceiver.h"
+class ScopeFX;
 
-class BCMParameter : public  Value::Listener,
-					 private OSCReceiver::ListenerWithOSCAddress<OSCReceiver::RealtimeCallback>
+class BCMParameter : public Value::Listener,
+					 OSCReceiver::ListenerWithOSCAddress<OSCReceiver::RealtimeCallback>
 {
 public:
-    BCMParameter(int paramNumber);
+    BCMParameter(int paramNumber, ScopeFX* owner);
     ~BCMParameter();
 
 	int  getScopeIntValue() const;
@@ -43,19 +44,21 @@ public:
 	void setDeviceInstance (int newValue) {deviceInstance = newValue;}
 	void setDeviceUID      (int newValue) {deviceUID = newValue;}
 	void setParameterGroup (int newValue) {parameterGroup = newValue;}
-	void toggleListening   (int newValue) { listening = (newValue == 0) ? false : true; }
+	void toggleListening   (int newValue) {listening = (newValue == 0) ? false : true;}
 
 private:
 	void  valueChanged(Value& valueThatChanged) override;
 	void  oscMessageReceived(const OSCMessage& message) override;
 
 	int  scopeIntValue;
-	bool listening;
+	bool listening{};
 	
+	ScopeFX* scopeFX;
+
 	Value deviceInstance;
 	Value deviceUID;
 	Value parameterGroup;
-	Value parameterNumber;
+	int   parameterNumber;
 
 	SharedResourcePointer<ScopeOSCReceiver> scopeOSCReceiver;
 };
