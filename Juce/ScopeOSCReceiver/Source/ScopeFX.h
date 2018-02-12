@@ -31,6 +31,8 @@
 
 //#include <vld.h>
 #include <JuceHeader.h>
+#include <atomic>
+#include <array>
 #include "../../../External/SonicCore/effclass.h"
 #include "ScopeFXParameterDefinitions.h"
 #include "BCMParameter.h"
@@ -41,7 +43,6 @@ class ScopeFX : public Effect
 {
 public:
     ScopeFX();
-    ~ScopeFX();
 
     // Process a set of Sync data coming in from Scope
     // and fill in outgoing streams as appropriate
@@ -54,10 +55,13 @@ public:
     int  async (PadData** asyncIn,  PadData* syncIn,
                 PadData*  asyncOut, PadData* syncOut);
 
+	void setParameterValue(int parameterNumber, int newValue);
+
 private:	
+	ScopedJuceInitialiser_GUI guiInitialiser;
 	OwnedArray<BCMParameter> parameters;
 
-	static Array<ScopeFX*> scopeFXInstances;     // Tracks instances of this object, so Juce can be shutdown when no more remain
+	std::array<std::atomic<int>, 16> parameterValues;
 };
 
 

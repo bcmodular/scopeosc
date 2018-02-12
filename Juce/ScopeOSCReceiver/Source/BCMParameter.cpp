@@ -23,17 +23,17 @@
  */
 
 #include "BCMParameter.h"
+#include "ScopeFX.h"
 
-BCMParameter::BCMParameter(int paramNumber)
+BCMParameter::BCMParameter(int paramNumber, ScopeFX* owner)
 	: scopeIntValue(0),
+	  scopeFX(owner),
 	  parameterNumber(paramNumber)
 {
 	deviceInstance.addListener(this);
 	deviceUID.addListener(this);
 	parameterGroup.addListener(this);
-	parameterNumber.addListener(this);
 	scopeOSCReceiver->registerOSCListener(this, getOSCPath());
-	DBG("BCMParameter::BCMParameter - there are now " + String(scopeOSCReceiver.getReferenceCount()) + " references to scopeOSCReceiver");
 }
 
 BCMParameter::~BCMParameter()
@@ -41,10 +41,8 @@ BCMParameter::~BCMParameter()
 	deviceInstance.removeListener(this);
 	deviceUID.removeListener(this);
 	parameterGroup.removeListener(this);
-	parameterNumber.removeListener(this);
 	
 	scopeOSCReceiver->unregisterOSCListener(this);
-	DBG("BCMParameter::BCMParameter being destroyed, there are now " + String(scopeOSCReceiver.getReferenceCount()) + " references to scopeOSCReceiver");
 };
 
 int BCMParameter::getScopeIntValue() const
@@ -67,7 +65,7 @@ void BCMParameter::valueChanged(Value& valueThatChanged)
 
 String BCMParameter::getOSCPath() const
 {
-	String oscPath("/" + deviceInstance.toString() + "/" + deviceUID.toString() + "/" + parameterGroup.toString() + "/" + parameterNumber.toString());
+	String oscPath("/" + deviceInstance.toString() + "/" + deviceUID.toString() + "/" + parameterGroup.toString() + "/" + String(parameterNumber));
 	DBG("BCMParameter::getOSCPath: returning " + oscPath);
 	return oscPath;
 }
@@ -80,8 +78,8 @@ void BCMParameter::oscMessageReceived (const OSCMessage& message)
 		DBG("BCMParameter::oscMessageReceived - ignoring OSC message");
 	else if (message.size() == 1 && message[0].isInt32())
 	{
-		int newValue = message[0].getInt32();
-		setScopeIntValue(newValue);
+		const int newValue = message[0].getInt32();
+		scopeFX->setParameterValue(parameterNumber, newValue);
 		DBG("BCMParameter::oscMessageReceived - set value to: " + String(newValue));
 	}
 	else

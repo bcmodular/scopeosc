@@ -51,29 +51,15 @@ BOOL CALLBACK EnumWindowsProc(HWND hwnd, LPARAM /* lParam */)
 #endif
 
 using namespace ScopeFXParameterDefinitions;
-Array<ScopeFX*> ScopeFX::scopeFXInstances;
 
 ScopeFX::ScopeFX() : Effect(&effectDescription)
 {
-	scopeFXInstances.add(this);
-
 	#ifdef _WIN32
         Process::setCurrentModuleInstanceHandle(HINST_THISCOMPONENT);
 	#endif
-        initialiseJuce_GUI();
 
 	for (int i = 0; i < numParameters; i++)
-		parameters.add(new BCMParameter(i + 1));
-}
-
-ScopeFX::~ScopeFX()
-{
-	scopeFXInstances.removeAllInstancesOf(this);
-
-	if (scopeFXInstances.isEmpty())
-	{
-		shutdownJuce_GUI();
-	}
+		parameters.add(new BCMParameter(i + 1, this));
 }
 
 int ScopeFX::async(PadData** asyncIn,  PadData* /*syncIn*/,
@@ -86,10 +72,15 @@ int ScopeFX::async(PadData** asyncIn,  PadData* /*syncIn*/,
 		parameters[i]->setParameterGroup(asyncIn[INPAD_PARAMETER_GROUP]->itg);
 		parameters[i]->toggleListening(asyncIn[INPAD_LISTENING]->itg);
 		
-		asyncOut[i].itg = parameters[i]->getScopeIntValue();
+		asyncOut[i].itg = parameterValues[i].load(std::memory_order_relaxed);
 	}
 		
-	return -1;
+	return 0;
+}
+
+void ScopeFX::setParameterValue(int parameterNumber, int newValue)
+{
+	parameterValues[parameterNumber].store(newValue, std::memory_order_relaxed);
 }
 
 int ScopeFX::syncBlock(PadData** /*asyncIn*/, PadData* /*syncIn*/,

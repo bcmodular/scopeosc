@@ -85,9 +85,9 @@ int ScopeFX::async(PadData** asyncIn,  PadData* /*syncIn*/,
 
 	scopeOSCSender->setRemotePortNumber(asyncIn[INPAD_REMOTEPORT]->itg);
 	scopeOSCSender->setRemoteHostName(asyncIn[INPAD_REMOTEHOST_OCT1]->itg, 
-									  asyncIn[INPAD_REMOTEHOST_OCT2]->itg,
-									  asyncIn[INPAD_REMOTEHOST_OCT3]->itg, 
-									  asyncIn[INPAD_REMOTEHOST_OCT4]->itg);
+										asyncIn[INPAD_REMOTEHOST_OCT2]->itg,
+										asyncIn[INPAD_REMOTEHOST_OCT3]->itg, 
+										asyncIn[INPAD_REMOTEHOST_OCT4]->itg);
 
 	scopeOSCSender->setDeviceInstance(asyncIn[INPAD_DEVICE_INSTANCE]->itg);
 	scopeOSCSender->setDeviceUID(asyncIn[INPAD_DEVICE_UID]->itg);
@@ -99,7 +99,7 @@ int ScopeFX::async(PadData** asyncIn,  PadData* /*syncIn*/,
 		parameters[i]->setSnapshotCounter(asyncIn[INPAD_SNAPSHOT_COUNTER]->itg);
 		parameters[i]->toggleMessageSending(asyncIn[INPAD_SEND_MESSAGES]->itg);
 	}
-
+	
 	return -1;
 }
 
