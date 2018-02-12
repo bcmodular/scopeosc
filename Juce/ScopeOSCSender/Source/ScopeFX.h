@@ -5,13 +5,13 @@
  * class.
  *
  *
- *  (C) Copyright 2014 bcmodular (http://www.bcmodular.co.uk/)
+ *  (C) Copyright 2018 bcmodular (http://www.bcmodular.co.uk/)
  *
  * This file is part of ScopeOSC.
  *
  * ScopeOSC is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
+ * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
  * ScopeOSC is distributed in the hope that it will be useful,
@@ -42,7 +42,6 @@ class ScopeFX : public Effect
 {
 public:
     ScopeFX();
-    ~ScopeFX();
 
     // Process a set of Sync data coming in from Scope
     // and fill in outgoing streams as appropriate
@@ -56,10 +55,10 @@ public:
                 PadData*  asyncOut, PadData* syncOut);
 
 private:
+	ScopedJuceInitialiser_GUI guiInitialiser;
+
 	ScopedPointer<ScopeOSCSender> scopeOSCSender;
 	OwnedArray<BCMParameter> parameters;
-
-	static Array<ScopeFX*> scopeFXInstances;     // Tracks instances of this object, so Juce can be shutdown when no more remain
 };
 
 

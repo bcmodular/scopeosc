@@ -3,13 +3,13 @@
  * by the Scope "Effect" class for communication between Scope
  * applications and the ScopeOSCSender DLL.
  *
- *  (C) Copyright 2014 bcmodular (http://www.bcmodular.co.uk/)
+ *  (C) Copyright 2018 bcmodular (http://www.bcmodular.co.uk/)
  *
  * This file is part of ScopeOSC.
  *
  * ScopeSync is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
+ * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
  * ScopeSync is distributed in the hope that it will be useful,

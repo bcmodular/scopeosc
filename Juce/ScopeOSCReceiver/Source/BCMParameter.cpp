@@ -1,13 +1,13 @@
 /**
  * Models a parameter
  *
- *  (C) Copyright 2014 bcmodular (http://www.bcmodular.co.uk/)
+ *  (C) Copyright 2018 bcmodular (http://www.bcmodular.co.uk/)
  *
  * This file is part of ScopeOSC.
  *
  * ScopeOSC is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
+ * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
  * ScopeOSC is distributed in the hope that it will be useful,
@@ -45,21 +45,11 @@ BCMParameter::~BCMParameter()
 	scopeOSCReceiver->unregisterOSCListener(this);
 };
 
-int BCMParameter::getScopeIntValue() const
-{
-	return scopeIntValue;
-}
-
-void BCMParameter::setScopeIntValue(int newValue)
-{
-	scopeIntValue = newValue;
-}
-
 void BCMParameter::valueChanged(Value& valueThatChanged)
 {
 	(void)valueThatChanged;
 
-	// New OSC UID
+	// Something affecting the OSC Path has changed...
 	scopeOSCReceiver->registerOSCListener(this, getOSCPath());
 }
 
