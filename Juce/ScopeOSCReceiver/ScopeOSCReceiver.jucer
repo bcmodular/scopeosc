@@ -2,7 +2,7 @@
 
 <JUCERPROJECT id="JG4Lct" name="ScopeOSCReceiver" projectType="dll" version="0.0.1"
               bundleIdentifier="com.yourcompany.ScopeOSCReceiver" includeBinaryInAppConfig="1"
-              jucerVersion="5.2.0" defines="" displaySplashScreen="1" reportAppUsage="1"
+              jucerVersion="5.2.1" defines="" displaySplashScreen="1" reportAppUsage="1"
               splashScreenColour="Dark" cppLanguageStandard="11" companyCopyright="">
   <MAINGROUP id="NHuEI4" name="ScopeOSCReceiver">
     <GROUP id="{64BE5796-E2DE-9B95-D294-1AB7E82FE7E7}" name="Source">
@@ -62,5 +62,5 @@
     <MODULES id="juce_gui_extra" showAllCode="1" useLocalCopy="1"/>
     <MODULE id="juce_osc" showAllCode="1" useLocalCopy="1"/>
   </MODULES>
-  <JUCEOPTIONS JUCE_WEB_BROWSER="disabled" JUCE_ENABLE_LIVE_CONSTANT_EDITOR="disabled"/>
+  <JUCEOPTIONS JUCE_WEB_BROWSER="0" JUCE_ENABLE_LIVE_CONSTANT_EDITOR="0"/>
 </JUCERPROJECT>

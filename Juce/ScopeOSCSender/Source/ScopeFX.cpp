@@ -5,13 +5,13 @@
  * class.
  *
  *
- *  (C) Copyright 2014 bcmodular (http://www.bcmodular.co.uk/)
+ *  (C) Copyright 2018 bcmodular (http://www.bcmodular.co.uk/)
  *
  * This file is part of ScopeOSC.
  *
  * ScopeOSC is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
+ * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
  * ScopeOSC is distributed in the hope that it will be useful,
@@ -52,7 +52,6 @@ BOOL CALLBACK EnumWindowsProc(HWND hwnd, LPARAM /* lParam */)
 #endif
 
 using namespace ScopeFXParameterDefinitions;
-Array<ScopeFX*> ScopeFX::scopeFXInstances;
 
 ScopeFX::ScopeFX()
 	: Effect(&effectDescription)
@@ -60,22 +59,11 @@ ScopeFX::ScopeFX()
 	#ifdef _WIN32
         Process::setCurrentModuleInstanceHandle(HINST_THISCOMPONENT);
 	#endif
-        initialiseJuce_GUI();
 
 	scopeOSCSender = new ScopeOSCSender();
 
 	for (int i = 0; i < numParameters; i++)
 		parameters.add(new BCMParameter(i+1, scopeOSCSender));
-}
-
-ScopeFX::~ScopeFX()
-{
-	scopeFXInstances.removeAllInstancesOf(this);
-
-	if (scopeFXInstances.isEmpty())
-	{
-		shutdownJuce_GUI();
-	}
 }
 
 int ScopeFX::async(PadData** asyncIn,  PadData* /*syncIn*/,
