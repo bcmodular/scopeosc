@@ -52,7 +52,7 @@ BOOL CALLBACK EnumWindowsProc(HWND hwnd, LPARAM /* lParam */)
 
 using namespace ScopeFXParameterDefinitions;
 
-ScopeFX::ScopeFX() : Effect(&effectDescription)
+ScopeFX::ScopeFX() : Effect(&effectDescription), parameterValues {}
 {
 	#ifdef _WIN32
         Process::setCurrentModuleInstanceHandle(HINST_THISCOMPONENT);
