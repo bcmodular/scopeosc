@@ -61,7 +61,7 @@ private:
 	ScopedJuceInitialiser_GUI guiInitialiser;
 	OwnedArray<BCMParameter> parameters;
 
-	std::array<std::atomic<int>, 16> parameterValues {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+	std::array<std::atomic<int>, 16> parameterValues;
 };
 
 #endif  // SCOPEFX_H_INCLUDED
