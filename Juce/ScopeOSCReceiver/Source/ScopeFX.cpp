@@ -80,7 +80,7 @@ int ScopeFX::async(PadData** asyncIn,  PadData* /*syncIn*/,
 
 void ScopeFX::setParameterValue(int parameterNumber, int newValue)
 {
-	parameterValues[parameterNumber].store(newValue, std::memory_order_relaxed);
+	parameterValues[parameterNumber - 1].store(newValue, std::memory_order_relaxed);
 }
 
 int ScopeFX::syncBlock(PadData** /*asyncIn*/, PadData* /*syncIn*/,

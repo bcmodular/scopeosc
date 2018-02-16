@@ -77,6 +77,7 @@ bool ScopeOSCSender::sendMessage(int parameterNumber, int valueToSend)
 
 	OSCMessage message(getOSCPath(parameterNumber));
 	message.addInt32(valueToSend);
+	DBG("ScopeOSCSender::sendMessage: sending value: " + String(valueToSend) + " to port: " + String(remotePortNumber) + ", on host: " + remoteHostname);
 
 	sender.send(message);
 	return true;
