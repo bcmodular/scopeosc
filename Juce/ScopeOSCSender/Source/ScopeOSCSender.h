@@ -43,6 +43,7 @@ public:
 	void setDeviceUID     (int newValue) {deviceUID = newValue;}
 	void setParameterGroup(int newValue) {parameterGroup = newValue;}
 	void setRemoteHostName(int oct1, int oct2, int oct3, int oct4) {setRemoteHostname(String(oct1) + "." + String(oct2) + "." + String(oct3) + "." + String(oct4));}
+	void setConfigurationUID(int newValue) {configurationUID = newValue;}
 
 private:
 	
@@ -54,9 +55,10 @@ private:
 
 	OSCSender sender;
 
-	Value deviceInstance;
-	Value deviceUID;
-	Value parameterGroup;
+	int deviceInstance{};
+	int deviceUID{};
+	int parameterGroup{};
+	int configurationUID{};
 
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ScopeOSCSender)
 };

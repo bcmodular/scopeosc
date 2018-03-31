@@ -38,16 +38,16 @@ public:
 
 	String getOSCPath() const;
 
-	void setDeviceInstance (int newValue) {deviceInstance = newValue;}
-	void setDeviceUID      (int newValue) {deviceUID = newValue;}
-	void setParameterGroup (int newValue) {parameterGroup = newValue;}
-	void toggleListening   (int newValue) {listening = (newValue == 0) ? false : true;}
+	void setDeviceInstance  (int newValue) {deviceInstance = newValue;}
+	void setDeviceUID       (int newValue) {deviceUID = newValue;}
+	void setParameterGroup  (int newValue) {parameterGroup = newValue;}
+	void toggleListening    (int newValue) {listening = (newValue == 0) ? false : true;}
+	void setConfigurationUID(int newValue) {configurationUID = newValue;}
 
 private:
 	void  valueChanged(Value& valueThatChanged) override;
 	void  oscMessageReceived(const OSCMessage& message) override;
 
-	int  scopeIntValue;
 	bool listening{};
 	
 	ScopeFX* scopeFX;
@@ -55,6 +55,7 @@ private:
 	Value deviceInstance;
 	Value deviceUID;
 	Value parameterGroup;
+	Value configurationUID;
 	int   parameterNumber;
 
 	SharedResourcePointer<ScopeOSCReceiver> scopeOSCReceiver;

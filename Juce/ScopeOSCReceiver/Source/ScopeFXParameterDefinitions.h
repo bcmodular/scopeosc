@@ -38,7 +38,8 @@ namespace ScopeFXParameterDefinitions {
 		INPAD_DEVICE_UID,
 		INPAD_PARAMETER_GROUP,
 		INPAD_LISTENING,
-		NUM_ASYNCINPADS
+		INPAD_CONFIGUID,
+    	NUM_ASYNCINPADS
     };
 
     /** so far no sync inputs used*/
@@ -78,6 +79,7 @@ namespace ScopeFXParameterDefinitions {
 		{ DTYPE_INT,    FRAC_MIN, FRAC_MAX },           // INPAD_DEVICE_UID
 		{ DTYPE_INT,    FRAC_MIN, FRAC_MAX },           // INPAD_PARAMETER_GROUP
 		{ DTYPE_INT,    FRAC_MIN, FRAC_MAX },           // INPAD_LISTENING
+		{ DTYPE_INT,    FRAC_MIN, FRAC_MAX },           // INPAD_CONFIGUID
 	};
 
     static PadType outputPadTypes[NUM_ASYNCOUTPADS + NUM_SYNCOUTPADS] = {
@@ -105,6 +107,7 @@ namespace ScopeFXParameterDefinitions {
 		{ "DUID", "Device UID" },
 		{ "PmGp", "Parameter Group" },
 		{ "List", "Listening to Messages" },
+		{ "cfg",  "configuration uid" },
 	};
 
     static nameDesc outputNameDescs[NUM_ASYNCOUTPADS + NUM_SYNCOUTPADS] = {

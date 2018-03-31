@@ -36,19 +36,19 @@
 #ifdef _WIN32
 EXTERN_C IMAGE_DOS_HEADER __ImageBase;
 #define HINST_THISCOMPONENT ((HINSTANCE)&__ImageBase)  
-HWND scopeWindow;
-BOOL CALLBACK EnumWindowsProc(HWND hwnd, LPARAM /* lParam */)
-{
-    HINSTANCE hinst = (HINSTANCE)GetModuleHandle(NULL);
-
-    if((HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE) == hinst && IsWindowVisible(hwnd))
-    {
-        scopeWindow = hwnd;
-        return FALSE;
-    }
-    else
-        return TRUE;
-}
+//HWND scopeWindow;
+//BOOL CALLBACK EnumWindowsProc(HWND hwnd, LPARAM /* lParam */)
+//{
+//    HINSTANCE hinst = (HINSTANCE)GetModuleHandle(NULL);
+//
+//    if((HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE) == hinst && IsWindowVisible(hwnd))
+//    {
+//        scopeWindow = hwnd;
+//        return FALSE;
+//    }
+//    else
+//        return TRUE;
+//}
 #endif
 
 using namespace ScopeFXParameterDefinitions;
@@ -80,6 +80,7 @@ int ScopeFX::async(PadData** asyncIn,  PadData* /*syncIn*/,
 	scopeOSCSender->setDeviceInstance(asyncIn[INPAD_DEVICE_INSTANCE]->itg);
 	scopeOSCSender->setDeviceUID(asyncIn[INPAD_DEVICE_UID]->itg);
 	scopeOSCSender->setParameterGroup(asyncIn[INPAD_PARAMETER_GROUP]->itg);
+	scopeOSCSender->setConfigurationUID(asyncIn[INPAD_CONFIGUID]->itg);
 	
 	for (int i = 0; i < numParameters; i++)
 	{

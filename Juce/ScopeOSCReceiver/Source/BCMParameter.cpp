@@ -26,13 +26,13 @@
 #include "ScopeFX.h"
 
 BCMParameter::BCMParameter(int paramNumber, ScopeFX* owner)
-	: scopeIntValue(0),
-	  scopeFX(owner),
+	: scopeFX(owner),
 	  parameterNumber(paramNumber)
 {
 	deviceInstance.addListener(this);
 	deviceUID.addListener(this);
 	parameterGroup.addListener(this);
+	configurationUID.addListener(this);
 	scopeOSCReceiver->registerOSCListener(this, getOSCPath());
 }
 
@@ -41,7 +41,8 @@ BCMParameter::~BCMParameter()
 	deviceInstance.removeListener(this);
 	deviceUID.removeListener(this);
 	parameterGroup.removeListener(this);
-	
+	configurationUID.removeListener(this);
+
 	scopeOSCReceiver->unregisterOSCListener(this);
 };
 
@@ -55,24 +56,31 @@ void BCMParameter::valueChanged(Value& valueThatChanged)
 
 String BCMParameter::getOSCPath() const
 {
-	String oscPath("/" + deviceInstance.toString() + "/" + deviceUID.toString() + "/" + parameterGroup.toString() + "/" + String(parameterNumber));
-	DBG("BCMParameter::getOSCPath: returning " + oscPath);
-	return oscPath;
+	String address;
+
+	if (int(parameterGroup.getValue()) == 0)
+		address = "/" + deviceInstance.toString() + "/0/" + parameterGroup.toString() + "/" + String(parameterNumber) + "/" + configurationUID.toString();
+	else
+		address = "/" + deviceInstance.toString() + "/0/" + parameterGroup.toString() + "/" + String(parameterNumber) + "/";
+
+	DBG("ScopeOSCReceiver::BCMParameter::getOSCPath: returning " + address);
+
+	return address;
 }
     
 void BCMParameter::oscMessageReceived (const OSCMessage& message)
 {
-	DBG("BCMParameter::oscMessageReceived - " + message.getAddressPattern().toString());
+	DBG("ScopeOSCReceiver::BCMParameter::oscMessageReceived - " + message.getAddressPattern().toString());
 
 	if (!listening)
-		DBG("BCMParameter::oscMessageReceived - ignoring OSC message");
+		DBG("ScopeOSCReceiver::BCMParameter::oscMessageReceived - ignoring OSC message");
 	else if (message.size() == 1 && message[0].isInt32())
 	{
 		const int newValue = message[0].getInt32();
 		scopeFX->setParameterValue(parameterNumber, newValue);
-		DBG("BCMParameter::oscMessageReceived - set value to: " + String(newValue));
+		DBG("ScopeOSCReceiver::BCMParameter::oscMessageReceived - set value to: " + String(newValue));
 	}
 	else
-		DBG("BCMParameter::oscMessageReceived - received other OSC message");
+		DBG("ScopeOSCReceiver::BCMParameter::oscMessageReceived - received other OSC message");
 }
 

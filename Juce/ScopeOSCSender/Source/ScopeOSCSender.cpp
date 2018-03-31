@@ -34,7 +34,7 @@ void ScopeOSCSender::setRemoteHostname(String hostname)
 {
 	if (hostname.compare(remoteHostname) != 0 && hostname != "0.0.0.0")
 	{
-		DBG("ScopeSyncOSCServer::setRemoteHostname - changed remote hostname to: " + hostname);
+		DBG("ScopeOSCSender::setRemoteHostname - changed remote hostname to: " + hostname);
 		remoteHostname = hostname;
 		remoteChanged  = true;
 	}
@@ -44,7 +44,7 @@ void ScopeOSCSender::setRemotePortNumber(int portNumber)
 {
 	if (portNumber != remotePortNumber && portNumber != 0)
 	{
-		DBG("ScopeSyncOSCServer::setRemotePortNumber - changed remote port number to: " + String(portNumber));
+		DBG("ScopeOSCSender::setRemotePortNumber - changed remote port number to: " + String(portNumber));
 		remotePortNumber = portNumber;
 		remoteChanged    = true;
 	}
@@ -52,14 +52,20 @@ void ScopeOSCSender::setRemotePortNumber(int portNumber)
 
 String ScopeOSCSender::getOSCPath(int parameterNumber) const
 {
-	String oscPath("/" + deviceInstance.toString() + "/" + deviceUID.toString() + "/" + parameterGroup.toString() + "/" + String(parameterNumber));
-	DBG("BCMParameter::getOSCPath: returning " + oscPath);
-	return oscPath;
+	String address;
+
+	if (parameterGroup == 0)
+		address = "/" + String(deviceInstance) + "/0/" + String(parameterGroup) + "/" + String(parameterNumber) + "/" + String(configurationUID);
+	else
+		address = "/" + String(deviceInstance) + "/0/" + String(parameterGroup) + "/" + String(parameterNumber) + "/";
+
+	DBG("ScopeOSCSender::getOSCPath: returning " + address);
+
+	return address;
 }
 
 bool ScopeOSCSender::sendMessage(int parameterNumber, int valueToSend)
 {
-
 	if (remoteChanged) {
         if (sender.connect(remoteHostname, remotePortNumber))
 			remoteChanged = false;
