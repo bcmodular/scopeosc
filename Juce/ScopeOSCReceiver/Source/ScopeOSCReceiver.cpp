@@ -60,7 +60,7 @@ void ScopeOSCReceiver::setLocalPortNumber(int portNumber)
 	{
 		if (connect(portNumber))
 		{
-			DBG("ScopeSyncOSCServer::setLocalPortNumber - set local port number to: " + String(portNumber));
+			DBG("ScopeOSCReceiver::setLocalPortNumber - set local port number to: " + String(portNumber));
 			receivePortNumber = portNumber;
 		}
 		else

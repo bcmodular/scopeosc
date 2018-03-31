@@ -61,6 +61,7 @@ namespace ScopeFXParameterDefinitions {
 		INPAD_REMOTEPORT,
 		INPAD_SNAPSHOT_COUNTER,
 		INPAD_SEND_MESSAGES,
+		INPAD_CONFIGUID,
 		NUM_ASYNCINPADS
     };
 
@@ -107,6 +108,7 @@ namespace ScopeFXParameterDefinitions {
 		{ DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_REMOTEPORT
 		{ DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_SNAPSHOT_COUNTER
 		{ DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_SEND_MESSAGES
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_CONFIGUID
 	};
 
 //    static PadType outputPadTypes[NUM_ASYNCOUTPADS + NUM_SYNCOUTPADS] = {
@@ -141,6 +143,7 @@ namespace ScopeFXParameterDefinitions {
 		{ "Port", "Remote Port" },
 		{ "Snap", "Snapshot Counter" },
 		{ "Send", "Send Messages" },
+		{ "cfg",  "configuration uid" },
 	};
 
 //    static nameDesc outputNameDescs[NUM_ASYNCOUTPADS + NUM_SYNCOUTPADS] = {
