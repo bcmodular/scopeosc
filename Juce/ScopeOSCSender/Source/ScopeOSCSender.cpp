@@ -55,9 +55,9 @@ String ScopeOSCSender::getOSCPath(int parameterNumber) const
 	String address;
 
 	if (parameterGroup == 0)
-		address = "/" + String(deviceInstance) + "/0/" + String(parameterGroup) + "/" + String(parameterNumber) + "/" + String(configurationUID);
+		address = "/" + String(deviceInstance) + "/" + String(deviceUID) + "/" + String(parameterGroup) + "/" + String(parameterNumber) + "/" + String(configurationUID);
 	else
-		address = "/" + String(deviceInstance) + "/0/" + String(parameterGroup) + "/" + String(parameterNumber) + "/";
+		address = "/" + String(deviceInstance) + "/" + String(deviceUID) + "/" + String(parameterGroup) + "/" + String(parameterNumber) + "/";
 
 	DBG("ScopeOSCSender::getOSCPath: returning " + address);
 
