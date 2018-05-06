@@ -59,9 +59,9 @@ String BCMParameter::getOSCPath() const
 	String address;
 
 	if (int(parameterGroup.getValue()) == 0)
-		address = "/" + deviceInstance.toString() + "/0/" + parameterGroup.toString() + "/" + String(parameterNumber) + "/" + configurationUID.toString();
+		address = "/" + deviceInstance.toString() + "/" + deviceUID.toString() + "/" + parameterGroup.toString() + "/" + String(parameterNumber) + "/" + configurationUID.toString();
 	else
-		address = "/" + deviceInstance.toString() + "/0/" + parameterGroup.toString() + "/" + String(parameterNumber) + "/";
+		address = "/" + deviceInstance.toString() + "/" + deviceUID.toString() + "/" + parameterGroup.toString() + "/" + String(parameterNumber) + "/";
 
 	DBG("ScopeOSCReceiver::BCMParameter::getOSCPath: returning " + address);
 
