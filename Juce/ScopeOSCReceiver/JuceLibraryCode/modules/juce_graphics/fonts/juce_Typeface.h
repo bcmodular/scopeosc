@@ -41,13 +41,15 @@ namespace juce
     class does everything you typically need for rendering text.
 
     @see CustomTypeface, Font
+
+    @tags{Graphics}
 */
 class JUCE_API  Typeface  : public ReferenceCountedObject
 {
 public:
     //==============================================================================
     /** A handy typedef for a pointer to a typeface. */
-    typedef ReferenceCountedObjectPtr<Typeface> Ptr;
+    using Ptr = ReferenceCountedObjectPtr<Typeface>;
 
     //==============================================================================
     /** Returns the font family of the typeface.
@@ -152,7 +154,7 @@ protected:
 private:
     struct HintingParams;
     friend struct ContainerDeletePolicy<HintingParams>;
-    ScopedPointer<HintingParams> hintingParams;
+    std::unique_ptr<HintingParams> hintingParams;
     CriticalSection hintingLock;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Typeface)

@@ -36,12 +36,14 @@ namespace juce
     adjacent rectangles.
 
     @see Rectangle
+
+    @tags{Graphics}
 */
 template <typename ValueType>
 class RectangleList  final
 {
 public:
-    typedef Rectangle<ValueType> RectangleType;
+    using RectangleType = Rectangle<ValueType>;
 
     //==============================================================================
     /** Creates an empty RectangleList */

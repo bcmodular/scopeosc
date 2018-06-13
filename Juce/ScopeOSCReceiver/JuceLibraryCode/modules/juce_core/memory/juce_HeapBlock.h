@@ -79,6 +79,8 @@ namespace HeapBlockHelper
     that the system's malloc() function doesn't throw).
 
     @see Array, OwnedArray, MemoryBlock
+
+    @tags{Core}
 */
 template <class ElementType, bool throwOnFailure = false>
 class HeapBlock
@@ -294,7 +296,7 @@ public:
     }
 
     /** This typedef can be used to get the type of the heapblock's elements. */
-    typedef ElementType Type;
+    using Type = ElementType;
 
 private:
     //==============================================================================

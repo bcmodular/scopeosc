@@ -31,6 +31,8 @@ namespace juce
 /**
     A component that displays a text string, and can optionally become a text
     editor when clicked.
+
+    @tags{GUI}
 */
 class JUCE_API  Label  : public Component,
                          public SettableTooltipClient,
@@ -343,7 +345,7 @@ private:
     String lastTextValue;
     Font font { 15.0f };
     Justification justification = Justification::centredLeft;
-    ScopedPointer<TextEditor> editor;
+    std::unique_ptr<TextEditor> editor;
     ListenerList<Listener> listeners;
     WeakReference<Component> ownerComponent;
     BorderSize<int> border { 1, 5, 1, 5 };

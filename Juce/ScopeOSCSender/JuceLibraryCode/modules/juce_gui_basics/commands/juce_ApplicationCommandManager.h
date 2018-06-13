@@ -81,6 +81,8 @@ namespace juce
     the object yourself.
 
     @see ApplicationCommandTarget, ApplicationCommandInfo
+
+    @tags{GUI}
 */
 class JUCE_API  ApplicationCommandManager   : private AsyncUpdater,
                                               private FocusChangeListener
@@ -303,7 +305,7 @@ private:
     //==============================================================================
     OwnedArray<ApplicationCommandInfo> commands;
     ListenerList<ApplicationCommandManagerListener> listeners;
-    ScopedPointer<KeyPressMappingSet> keyMappings;
+    std::unique_ptr<KeyPressMappingSet> keyMappings;
     ApplicationCommandTarget* firstTarget = nullptr;
 
     void sendListenerInvokeCallback (const ApplicationCommandTarget::InvocationInfo&);
@@ -328,6 +330,8 @@ private:
 
     @see ApplicationCommandManager::addListener, ApplicationCommandManager::removeListener
 
+
+    @tags{GUI}
 */
 class JUCE_API  ApplicationCommandManagerListener
 {

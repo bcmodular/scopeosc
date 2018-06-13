@@ -1241,13 +1241,24 @@ void TextEditor::removeListener (Listener* l)   { listeners.remove (l); }
 //==============================================================================
 void TextEditor::timerCallbackInt()
 {
-    if (hasKeyboardFocus (false) && ! isCurrentlyBlockedByAnotherModalComponent())
-        wasFocused = true;
+    checkFocus();
 
     auto now = Time::getApproximateMillisecondCounter();
 
     if (now > lastTransactionTime + 200)
         newTransaction();
+}
+
+void TextEditor::checkFocus()
+{
+    if (hasKeyboardFocus (false) && ! isCurrentlyBlockedByAnotherModalComponent())
+    {
+        wasFocused = true;
+
+        if (auto* peer = getPeer())
+            if (! isReadOnly())
+                peer->textInputRequired (peer->globalToLocal (getScreenPosition()), *this);
+    }
 }
 
 void TextEditor::repaintText (Range<int> range)
@@ -2046,7 +2057,7 @@ bool TextEditor::keyStateChanged (const bool isKeyDown)
         return false;
 
     // (overridden to avoid forwarding key events to the parent)
-    return ! ModifierKeys::getCurrentModifiers().isCommandDown();
+    return ! ModifierKeys::currentModifiers.isCommandDown();
 }
 
 //==============================================================================
@@ -2060,12 +2071,14 @@ void TextEditor::focusGained (FocusChangeType)
         moveCaretTo (getTotalNumChars(), true);
     }
 
+    // When caret position changes, we check focus automatically, to
+    // show any native keyboard if needed. If the position does not
+    // change though, we need to check focus manually.
+    if (getTotalNumChars() == 0)
+        checkFocus();
+
     repaint();
     updateCaretPosition();
-
-    if (auto* peer = getPeer())
-        if (! isReadOnly())
-            peer->textInputRequired (peer->globalToLocal (getScreenPosition()), *this);
 }
 
 void TextEditor::focusLost (FocusChangeType)

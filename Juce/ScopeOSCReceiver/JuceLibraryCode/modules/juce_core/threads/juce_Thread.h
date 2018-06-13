@@ -36,6 +36,8 @@ namespace juce
 
     @see CriticalSection, WaitableEvent, Process, ThreadWithProgressWindow,
          MessageManagerLock
+
+    @tags{Core}
 */
 class JUCE_API  Thread
 {
@@ -173,7 +175,8 @@ public:
     bool waitForThreadToExit (int timeOutMilliseconds) const;
 
     //==============================================================================
-    class Listener
+    /** Used to receive callbacks for thread exit calls */
+    class JUCE_API Listener
     {
     public:
         virtual ~Listener() {}
@@ -200,9 +203,9 @@ public:
         for realtime audio processing.
 
         Currently, this priority is identical to priority 9, except when building
-        for Android with OpenSL support.
+        for Android with OpenSL/Oboe support.
 
-        In this case, JUCE will ask OpenSL to construct a super high priority thread
+        In this case, JUCE will ask OpenSL/Oboe to construct a super high priority thread
         specifically for realtime audio processing.
 
         Note that this priority can only be set **before** the thread has
@@ -210,7 +213,7 @@ public:
         priority, is not supported under Android and will assert.
 
         For best performance this thread should yield at regular intervals
-        and not call any blocking APIS.
+        and not call any blocking APIs.
 
         @see startThread, setPriority, sleep, WaitableEvent
      */
@@ -285,7 +288,7 @@ public:
     /** A value type used for thread IDs.
         @see getCurrentThreadId(), getThreadId()
     */
-    typedef void* ThreadID;
+    using ThreadID = void*;
 
     /** Returns an id that identifies the caller thread.
 

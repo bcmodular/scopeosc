@@ -43,6 +43,8 @@ namespace juce
     To use it, just add a set of named pages with the addSettingsPage() method,
     and implement the createComponentForPage() method to create suitable components
     for each of these pages.
+
+    @tags{GUI}
 */
 class JUCE_API  PreferencesPanel  : public Component
 {
@@ -134,7 +136,7 @@ public:
 private:
     //==============================================================================
     String currentPageName;
-    ScopedPointer<Component> currentPage;
+    std::unique_ptr<Component> currentPage;
     OwnedArray<DrawableButton> buttons;
     int buttonSize;
 

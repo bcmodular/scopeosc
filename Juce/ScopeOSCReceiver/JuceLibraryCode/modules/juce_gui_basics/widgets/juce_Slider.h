@@ -47,6 +47,8 @@ namespace juce
     the value changes.
 
     @see Slider::Listener
+
+    @tags{GUI}
 */
 class JUCE_API  Slider  : public Component,
                           public SettableTooltipClient
@@ -139,6 +141,7 @@ public:
     SliderStyle getSliderStyle() const noexcept;
 
     //==============================================================================
+    /** Structure defining rotary parameters for a slider */
     struct RotaryParameters
     {
         /** The angle (in radians, clockwise from the top) at which
@@ -416,6 +419,12 @@ public:
     */
     void setRange (Range<double> newRange, double newInterval);
 
+    /** Sets a NormalisableRange to use for the Slider values.
+
+        @param newNormalisableRange     the NormalisableRange to use
+    */
+    void setNormalisableRange (NormalisableRange<double> newNormalisableRange);
+
     /** Returns the slider's range. */
     Range<double> getRange() const noexcept;
 
@@ -596,6 +605,12 @@ public:
     /** You can assign a lambda to this callback object to have it called when the slider's drag ends. */
     std::function<void()> onDragEnd;
 
+    /** You can assign a lambda that will be used to convert textual values to the slider's normalised position. */
+    std::function<double (const String&)> valueFromTextFunction;
+
+    /** You can assign a lambda that will be used to convert the slider's normalised position to a textual value. */
+    std::function<String (double)> textFromValueFunction;
+
     //==============================================================================
     /** This lets you choose whether double-clicking moves the slider to a given position.
 
@@ -746,8 +761,17 @@ public:
         slider's value.
         It calculates the fewest decimal places needed to represent numbers with
         the slider's interval setting.
+
+        @see setNumDecimalPlacesToDisplay
     */
     int getNumDecimalPlacesToDisplay() const noexcept;
+
+    /** Modifies the best number of decimal places to use when displaying this
+        slider's value.
+
+        @see getNumDecimalPlacesToDisplay
+    */
+    void setNumDecimalPlacesToDisplay (int decimalPlacesToDisplay);
 
     //==============================================================================
     /** Allows a user-defined mapping of distance along the slider to its value.
@@ -819,6 +843,10 @@ public:
     bool isRotary() const noexcept;
     /** True if the slider is in a linear bar mode. */
     bool isBar() const noexcept;
+    /** True if the slider has two thumbs. */
+    bool isTwoValue() const noexcept;
+    /** True if the slider has three thumbs. */
+    bool isThreeValue() const noexcept;
 
     //==============================================================================
     /** A set of colour IDs to use to change the colour of various aspects of the slider.
@@ -951,7 +979,7 @@ private:
     JUCE_PUBLIC_IN_DLL_BUILD (class Pimpl)
     friend class Pimpl;
     friend struct ContainerDeletePolicy<Pimpl>;
-    ScopedPointer<Pimpl> pimpl;
+    std::unique_ptr<Pimpl> pimpl;
 
     void init (SliderStyle, TextEntryBoxPosition);
 

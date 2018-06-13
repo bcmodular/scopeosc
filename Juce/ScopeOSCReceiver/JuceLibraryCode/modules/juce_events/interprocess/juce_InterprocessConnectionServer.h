@@ -33,6 +33,8 @@ namespace juce
     to connect.
 
     @see InterprocessConnection
+
+    @tags{Events}
 */
 class JUCE_API  InterprocessConnectionServer    : private Thread
 {
@@ -94,7 +96,7 @@ protected:
 
 private:
     //==============================================================================
-    ScopedPointer<StreamingSocket> socket;
+    std::unique_ptr<StreamingSocket> socket;
 
     void run() override;
 

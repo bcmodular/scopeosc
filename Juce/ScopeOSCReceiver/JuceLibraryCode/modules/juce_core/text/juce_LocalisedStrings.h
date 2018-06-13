@@ -65,6 +65,8 @@ namespace juce
     intercept and translate any internal JUCE text strings that might be shown. (You can easily
     get a list of all the messages by searching for the TRANS() macro in the JUCE source
     code).
+
+    @tags{Core}
 */
 class JUCE_API  LocalisedStrings
 {
@@ -188,7 +190,7 @@ private:
     String languageName;
     StringArray countryCodes;
     StringPairArray translations;
-    ScopedPointer<LocalisedStrings> fallback;
+    std::unique_ptr<LocalisedStrings> fallback;
     friend struct ContainerDeletePolicy<LocalisedStrings>;
 
     void loadFromText (const String&, bool ignoreCase);

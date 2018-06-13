@@ -45,6 +45,8 @@ namespace juce
     called to let your class process this.
 
     @see PropertyComponent, PropertyPanel
+
+    @tags{GUI}
 */
 class JUCE_API  ChoicePropertyComponent    : public PropertyComponent
 {
@@ -86,7 +88,7 @@ public:
                                     as the choices array
 
     */
-    ChoicePropertyComponent (ValueWithDefault valueToControl,
+    ChoicePropertyComponent (ValueWithDefault& valueToControl,
                              const String& propertyName,
                              const StringArray& choices,
                              const Array<var>& correspondingValues);
@@ -96,7 +98,7 @@ public:
 
         This is useful for simple on/off choices that also need a default value.
     */
-    ChoicePropertyComponent (ValueWithDefault valueToControl,
+    ChoicePropertyComponent (ValueWithDefault& valueToControl,
                              const String& propertyName);
 
     /** Destructor. */

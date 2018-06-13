@@ -131,6 +131,8 @@ namespace juce
     @endcode
 
     @see XmlDocument
+
+    @tags{Core}
 */
 class JUCE_API  XmlElement
 {
@@ -275,6 +277,11 @@ public:
         @see getTagName
     */
     bool hasTagNameIgnoringNamespace (StringRef possibleTagName) const;
+
+    /** Changes this elements tag name.
+        @see getTagName
+     */
+    void setTagName (StringRef newTagName);
 
     //==============================================================================
     /** Returns the number of XML attributes this element contains.

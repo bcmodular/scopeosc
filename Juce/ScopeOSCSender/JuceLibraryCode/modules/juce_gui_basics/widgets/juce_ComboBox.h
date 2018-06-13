@@ -40,6 +40,8 @@ namespace juce
     To find out when the user selects a different item or edits the text, you
     can assign a lambda to the onChange member, or register a ComboBox::Listener
     to receive callbacks.
+
+    @tags{GUI}
 */
 class JUCE_API  ComboBox  : public Component,
                             public SettableTooltipClient,
@@ -433,7 +435,7 @@ private:
     bool isButtonDown = false, menuActive = false, scrollWheelEnabled = false;
     float mouseWheelAccumulator = 0;
     ListenerList<Listener> listeners;
-    ScopedPointer<Label> label;
+    std::unique_ptr<Label> label;
     String textWhenNothingSelected, noChoicesMessage;
     EditableState labelEditableState = editableUnknown;
 

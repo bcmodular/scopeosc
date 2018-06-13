@@ -32,6 +32,8 @@ namespace juce
     The base class for objects which can draw themselves, e.g. polygons, images, etc.
 
     @see DrawableComposite, DrawableImage, DrawablePath, DrawableText
+
+    @tags{GUI}
 */
 class JUCE_API  Drawable  : public Component
 {
@@ -202,7 +204,7 @@ protected:
     void applyDrawableClipPath (Graphics&);
 
     Point<int> originRelativeToComponent;
-    ScopedPointer<Drawable> drawableClipPath;
+    std::unique_ptr<Drawable> drawableClipPath;
 
     void nonConstDraw (Graphics&, float opacity, const AffineTransform&);
 

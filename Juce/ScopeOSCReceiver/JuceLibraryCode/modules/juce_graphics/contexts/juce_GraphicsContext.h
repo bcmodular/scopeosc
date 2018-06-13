@@ -39,6 +39,8 @@ namespace juce
     that image.
 
     @see Component::paint
+
+    @tags{Graphics}
 */
 class JUCE_API  Graphics  final
 {
@@ -737,7 +739,7 @@ public:
 private:
     //==============================================================================
     LowLevelGraphicsContext& context;
-    ScopedPointer<LowLevelGraphicsContext> contextToDelete;
+    std::unique_ptr<LowLevelGraphicsContext> contextToDelete;
 
     bool saveStatePending = false;
     void saveStateIfPending();

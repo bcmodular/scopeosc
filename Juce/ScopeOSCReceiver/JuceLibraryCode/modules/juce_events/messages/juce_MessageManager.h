@@ -35,7 +35,7 @@ class OpenGLContext;
 
 //==============================================================================
 /** See MessageManager::callFunctionOnMessageThread() for use of this function type. */
-typedef void* (MessageCallbackFunction) (void* userData);
+using MessageCallbackFunction = void* (void* userData);
 
 
 //==============================================================================
@@ -43,6 +43,8 @@ typedef void* (MessageCallbackFunction) (void* userData);
     This class is in charge of the application's event-dispatch loop.
 
     @see Message, CallbackMessage, MessageManagerLock, JUCEApplication, JUCEApplicationBase
+
+    @tags{Events}
 */
 class JUCE_API  MessageManager  final
 {
@@ -180,7 +182,7 @@ public:
         virtual void messageCallback() = 0;
         bool post();
 
-        typedef ReferenceCountedObjectPtr<MessageBase> Ptr;
+        using Ptr = ReferenceCountedObjectPtr<MessageBase>;
 
         JUCE_DECLARE_NON_COPYABLE (MessageBase)
     };
@@ -278,13 +280,13 @@ public:
 
         //==============================================================================
         /** Provides the type of scoped lock to use with a CriticalSection. */
-        typedef GenericScopedLock<Lock>       ScopedLockType;
+        using ScopedLockType = GenericScopedLock<Lock>;
 
         /** Provides the type of scoped unlocker to use with a CriticalSection. */
-        typedef GenericScopedUnlock<Lock>     ScopedUnlockType;
+        using ScopedUnlockType = GenericScopedUnlock<Lock>;
 
         /** Provides the type of scoped try-locker to use with a CriticalSection. */
-        typedef GenericScopedTryLock<Lock>    ScopedTryLockType;
+        using ScopedTryLockType = GenericScopedTryLock<Lock>;
 
     private:
         struct BlockingMessage;
@@ -317,7 +319,7 @@ private:
     friend class QuitMessage;
     friend class MessageManagerLock;
 
-    ScopedPointer<ActionBroadcaster> broadcaster;
+    std::unique_ptr<ActionBroadcaster> broadcaster;
     Atomic<int> quitMessagePosted { 0 }, quitMessageReceived { 0 };
     Thread::ThreadID messageThreadId;
     Atomic<Thread::ThreadID> threadWithLock;
@@ -376,6 +378,8 @@ private:
     you'll get an (occasional) deadlock..
 
     @see MessageManager, MessageManager::currentThreadHasLockedMessageManager
+
+    @tags{Events}
 */
 class JUCE_API MessageManagerLock      : private Thread::Listener
 {

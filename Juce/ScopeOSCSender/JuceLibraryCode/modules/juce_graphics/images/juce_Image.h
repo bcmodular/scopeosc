@@ -52,6 +52,8 @@ class ImagePixelData;
     ImageFileFormat, which provides a way to load common image files.
 
     @see Graphics, ImageFileFormat, ImageCache, ImageConvolutionKernel
+
+    @tags{Graphics}
 */
 class JUCE_API  Image  final
 {
@@ -363,7 +365,7 @@ public:
             virtual ~BitmapDataReleaser() {}
         };
 
-        ScopedPointer<BitmapDataReleaser> dataReleaser;
+        std::unique_ptr<BitmapDataReleaser> dataReleaser;
 
     private:
         JUCE_DECLARE_NON_COPYABLE (BitmapData)
@@ -412,12 +414,10 @@ public:
     /** @internal */
     explicit Image (ImagePixelData*) noexcept;
 
-   #if JUCE_ALLOW_STATIC_NULL_VARIABLES
-    /** A null Image object that can be used when you need to return an invalid image.
+    /* A null Image object that can be used when you need to return an invalid image.
         @deprecated If you need a default-constructed var, just use Image() or {}.
     */
-    static const Image null;
-   #endif
+    JUCE_DEPRECATED_STATIC (static const Image null;)
 
 private:
     //==============================================================================
@@ -437,6 +437,8 @@ private:
 
     ImagePixelData objects are created indirectly, by subclasses of ImageType.
     @see Image, ImageType
+
+    @tags{Graphics}
 */
 class JUCE_API  ImagePixelData  : public ReferenceCountedObject
 {
@@ -444,7 +446,7 @@ public:
     ImagePixelData (Image::PixelFormat, int width, int height);
     ~ImagePixelData();
 
-    typedef ReferenceCountedObjectPtr<ImagePixelData> Ptr;
+    using Ptr = ReferenceCountedObjectPtr<ImagePixelData>;
 
     /** Creates a context that will draw into this image. */
     virtual LowLevelGraphicsContext* createLowLevelContext() = 0;
@@ -470,6 +472,7 @@ public:
     NamedValueSet userData;
 
     //==============================================================================
+    /** Used to receive callbacks for image data changes */
     struct Listener
     {
         virtual ~Listener() {}
@@ -492,6 +495,8 @@ private:
     e.g. an in-memory bitmap, an OpenGL image, CoreGraphics image, etc.
 
     @see SoftwareImageType, NativeImageType, OpenGLImageType
+
+    @tags{Graphics}
 */
 class JUCE_API  ImageType
 {
@@ -516,6 +521,8 @@ public:
 /**
     An image storage type which holds the pixels in-memory as a simple block of values.
     @see ImageType, NativeImageType
+
+    @tags{Graphics}
 */
 class JUCE_API  SoftwareImageType   : public ImageType
 {
@@ -532,6 +539,8 @@ public:
     An image storage type which holds the pixels using whatever is the default storage
     format on the current platform.
     @see ImageType, SoftwareImageType
+
+    @tags{Graphics}
 */
 class JUCE_API  NativeImageType   : public ImageType
 {
