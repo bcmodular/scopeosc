@@ -41,6 +41,8 @@ namespace juce
     TypeOfCriticalSectionToUse parameter, instead of the default DummyCriticalSection.
 
     @see Array, ReferenceCountedArray, StringArray, CriticalSection
+
+    @tags{Core}
 */
 template <class ObjectClass,
           class TypeOfCriticalSectionToUse = DummyCriticalSection>
@@ -64,7 +66,7 @@ public:
         deleteAllObjects();
     }
 
-    /** Move constructor */
+    /** Move constructor. */
     OwnedArray (OwnedArray&& other) noexcept
         : data (static_cast<ArrayAllocationBase <ObjectClass*, TypeOfCriticalSectionToUse>&&> (other.data)),
           numUsed (other.numUsed)
@@ -72,7 +74,13 @@ public:
         other.numUsed = 0;
     }
 
-    /** Move assignment operator */
+    /** Creates an array from a list of objects. */
+    OwnedArray (const std::initializer_list<ObjectClass*>& items)
+    {
+        addArray (items);
+    }
+
+    /** Move assignment operator. */
     OwnedArray& operator= (OwnedArray&& other) noexcept
     {
         const ScopedLockType lock (getLock());
@@ -400,7 +408,7 @@ public:
     {
         if (indexToChange >= 0)
         {
-            ScopedPointer<ObjectClass> toDelete;
+            std::unique_ptr<ObjectClass> toDelete;
 
             {
                 const ScopedLockType lock (getLock());
@@ -465,6 +473,20 @@ public:
         while (--numElementsToAdd >= 0)
         {
             data.elements[numUsed] = arrayToAddFrom.getUnchecked (startIndex++);
+            ++numUsed;
+        }
+    }
+
+    /** Adds elements from another array to the end of this array. */
+    template <typename OtherArrayType>
+    void addArray (const std::initializer_list<OtherArrayType>& items)
+    {
+        const ScopedLockType lock (getLock());
+        data.ensureAllocatedSize (numUsed + (int) items.size());
+
+        for (auto* item : items)
+        {
+            data.elements[numUsed] = item;
             ++numUsed;
         }
     }
@@ -581,7 +603,7 @@ public:
     */
     void remove (int indexToRemove, bool deleteObject = true)
     {
-        ScopedPointer<ObjectClass> toDelete;
+        std::unique_ptr<ObjectClass> toDelete;
 
         {
             const ScopedLockType lock (getLock());
@@ -858,7 +880,9 @@ public:
                                    // avoids getting warning messages about the parameter being unused
 
         const ScopedLockType lock (getLock());
-        sortArray (comparator, data.elements.get(), 0, size() - 1, retainOrderOfEquivalentItems);
+
+        if (size() > 1)
+            sortArray (comparator, data.elements.get(), 0, size() - 1, retainOrderOfEquivalentItems);
     }
 
     //==============================================================================
@@ -869,7 +893,7 @@ public:
     inline const TypeOfCriticalSectionToUse& getLock() const noexcept      { return data; }
 
     /** Returns the type of scoped lock to use for locking this array */
-    typedef typename TypeOfCriticalSectionToUse::ScopedLockType ScopedLockType;
+    using ScopedLockType = typename TypeOfCriticalSectionToUse::ScopedLockType;
 
 
     //==============================================================================

@@ -33,6 +33,8 @@ namespace juce
     to receive callbacks when the currently focused component changes.
 
     @see Desktop::addFocusChangeListener, Desktop::removeFocusChangeListener
+
+    @tags{GUI}
 */
 class JUCE_API  FocusChangeListener
 {
@@ -49,6 +51,8 @@ public:
 /**
     Describes and controls aspects of the computer's desktop.
 
+
+    @tags{GUI}
 */
 class JUCE_API  Desktop  : private DeletedAtShutdown,
                            private Timer,
@@ -323,6 +327,7 @@ public:
     bool isOrientationEnabled (DisplayOrientation orientation) const noexcept;
 
     //==============================================================================
+    /** Manages details about connected display devices */
     class JUCE_API  Displays
     {
     public:
@@ -417,7 +422,7 @@ private:
     friend class DeletedAtShutdown;
     friend class TopLevelWindowManager;
 
-    ScopedPointer<MouseInputSource::SourceList> mouseSources;
+    std::unique_ptr<MouseInputSource::SourceList> mouseSources;
 
     ListenerList<MouseListener> mouseListeners;
     ListenerList<FocusChangeListener> focusListeners;
@@ -425,7 +430,7 @@ private:
     Array<Component*> desktopComponents;
     Array<ComponentPeer*> peers;
 
-    ScopedPointer<Displays> displays;
+    std::unique_ptr<Displays> displays;
 
     Point<float> lastFakeMouseMove;
     void sendMouseMove();
@@ -434,7 +439,7 @@ private:
     void incrementMouseClickCounter() noexcept;
     void incrementMouseWheelCounter() noexcept;
 
-    ScopedPointer<LookAndFeel> defaultLookAndFeel;
+    std::unique_ptr<LookAndFeel> defaultLookAndFeel;
     WeakReference<LookAndFeel> currentLookAndFeel;
 
     Component* kioskModeComponent = nullptr;

@@ -39,15 +39,17 @@ namespace juce
 
     To be informed when items are selected/deselected, register a ChangeListener with
     this object.
+
+    @tags{GUI}
 */
 template <class SelectableItemType>
 class SelectedItemSet   : public ChangeBroadcaster
 {
 public:
     //==============================================================================
-    typedef SelectableItemType ItemType;
-    typedef Array<SelectableItemType> ItemArray;
-    typedef typename TypeHelpers::ParameterType<SelectableItemType>::type ParameterType;
+    using ItemType = SelectableItemType;
+    using ItemArray = Array<SelectableItemType>;
+    using ParameterType = typename TypeHelpers::ParameterType<SelectableItemType>::type;
 
     //==============================================================================
     /** Creates an empty set. */

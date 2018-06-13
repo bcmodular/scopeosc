@@ -27,17 +27,6 @@
 namespace juce
 {
 
-#if __ANDROID_API__ >= 21
-#define JNI_CLASS_MEMBERS(METHOD, STATICMETHOD, FIELD, STATICFIELD) \
-  METHOD (build,          "build",          "()Landroid/media/AudioAttributes;") \
-  METHOD (constructor,    "<init>",         "()V") \
-  METHOD (setContentType, "setContentType", "(I)Landroid/media/AudioAttributes$Builder;") \
-  METHOD (setUsage,       "setUsage",       "(I)Landroid/media/AudioAttributes$Builder;")
-
-DECLARE_JNI_CLASS (AudioAttributesBuilder, "android/media/AudioAttributes$Builder")
-#undef JNI_CLASS_MEMBERS
-#endif
-
 #if __ANDROID_API__ >= 26
 #define JNI_CLASS_MEMBERS(METHOD, STATICMETHOD, FIELD, STATICFIELD) \
   METHOD (constructor,             "<init>",                  "(Ljava/lang/String;Ljava/lang/CharSequence;I)V") \
@@ -1288,7 +1277,10 @@ struct PushNotifications::Pimpl
         auto notificationData = LocalRef<jobject> (env->CallObjectMethod (extras, JavaBundle.getBundle,
                                                                           javaString ("notificationData").get()));
 
-        return localNotificationBundleToJuceNotification (notificationData);
+        if (notificationData.get() != nullptr)
+            return localNotificationBundleToJuceNotification (notificationData);
+        else
+            return remoteNotificationBundleToJuceNotification (extras);
       #else
         ignoreUnused (notification);
         return {};
@@ -1322,15 +1314,22 @@ struct PushNotifications::Pimpl
 
                 auto key            = LocalRef<jstring> ((jstring) env->CallObjectMethod (iterator, JavaIterator.next));
                 auto object         = LocalRef<jobject> (env->CallObjectMethod (bundle, JavaBundle.get, key.get()));
-                auto objectAsString = LocalRef<jstring> ((jstring) env->CallObjectMethod (object, JavaObject.toString));
-                auto objectClass    = LocalRef<jobject> (env->CallObjectMethod (object, JavaObject.getClass));
-                auto classAsString  = LocalRef<jstring> ((jstring) env->CallObjectMethod (objectClass, JavaClass.getName));
 
-                // Note: seems that Firebase delivers values as strings always, so this check is rather unnecessary,
-                //       at least till they change the behaviour.
-                const var value = juceString (classAsString) == "java.lang.Bundle" ? bundleToVar (object) : var (juceString (objectAsString.get()));
+                if (object.get() != nullptr)
+                {
+                    auto objectAsString = LocalRef<jstring> ((jstring) env->CallObjectMethod (object, JavaObject.toString));
+                    auto objectClass    = LocalRef<jobject> (env->CallObjectMethod (object, JavaObject.getClass));
+                    auto classAsString  = LocalRef<jstring> ((jstring) env->CallObjectMethod (objectClass, JavaClass.getName));
 
-                dynamicObject->setProperty (juceString (key.get()), value);
+                    // Note: seems that Firebase delivers values as strings always, so this check is rather unnecessary,
+                    //       at least till they change the behaviour.
+                    var value = juceString (classAsString) == "java.lang.Bundle" ? bundleToVar (object) : var (juceString (objectAsString.get()));
+                    dynamicObject->setProperty (juceString (key.get()), value);
+                }
+                else
+                {
+                    dynamicObject->setProperty (juceString (key.get()), {});
+                }
             }
 
             return var (dynamicObject);
@@ -1417,31 +1416,14 @@ struct PushNotifications::Pimpl
             propertiesDynamicObject->setProperty ("clickAction",           juceString (clickAction.get()));
             propertiesDynamicObject->setProperty ("bodyLocalizationKey",   juceString (bodyLocalizationKey.get()));
             propertiesDynamicObject->setProperty ("titleLocalizationKey",  juceString (titleLocalizationKey.get()));
-            propertiesDynamicObject->setProperty ("bodyLocalizationArgs",  jobjectArrayToStringArray (bodyLocalizationArgs));
-            propertiesDynamicObject->setProperty ("titleLocalizationArgs", jobjectArrayToStringArray (titleLocalizationArgs));
+            propertiesDynamicObject->setProperty ("bodyLocalizationArgs",  javaStringArrayToJuce (bodyLocalizationArgs));
+            propertiesDynamicObject->setProperty ("titleLocalizationArgs", javaStringArrayToJuce (titleLocalizationArgs));
             propertiesDynamicObject->setProperty ("link",                  link.get() != 0 ? juceString ((jstring) env->CallObjectMethod (link, AndroidUri.toString)) : String());
         }
 
         n.properties = var (propertiesDynamicObject);
 
         return n;
-    }
-
-    static StringArray jobjectArrayToStringArray (const LocalRef<jobjectArray>& array)
-    {
-        if (array == 0)
-            return {};
-
-        auto* env = getEnv();
-
-        const int size = env->GetArrayLength (array.get());
-
-        StringArray stringArray;
-
-        for (int i = 0; i < size; ++i)
-            stringArray.add (juceString ((jstring) env->GetObjectArrayElement (array.get(), (jsize) i)));
-
-        return stringArray;
     }
   #endif
 
@@ -1511,12 +1493,12 @@ struct PushNotifications::Pimpl
                 env->CallVoidMethod (channel, NotificationChannel.enableVibration, c.enableVibration);
             }
 
-            auto audioAttributesBuilder = LocalRef<jobject> (env->NewObject (AudioAttributesBuilder, AudioAttributesBuilder.constructor));
+            LocalRef<jobject> builder (env->NewObject (AndroidAudioAttributesBuilder, AndroidAudioAttributesBuilder.constructor));
             const int contentTypeSonification = 4;
             const int usageNotification = 5;
-            env->CallObjectMethod (audioAttributesBuilder, AudioAttributesBuilder.setContentType, contentTypeSonification);
-            env->CallObjectMethod (audioAttributesBuilder, AudioAttributesBuilder.setUsage, usageNotification);
-            auto audioAttributes = LocalRef<jobject> (env->CallObjectMethod (audioAttributesBuilder, AudioAttributesBuilder.build));
+            env->CallObjectMethod (builder.get(), AndroidAudioAttributesBuilder.setContentType, contentTypeSonification);
+            env->CallObjectMethod (builder.get(), AndroidAudioAttributesBuilder.setUsage, usageNotification);
+            auto audioAttributes = LocalRef<jobject> (env->CallObjectMethod (builder.get(), AndroidAudioAttributesBuilder.build));
             env->CallVoidMethod (channel, NotificationChannel.setSound, juceUrlToAndroidUri (c.soundToPlay).get(), audioAttributes.get());
 
             env->CallVoidMethod (notificationManager, NotificationManagerApi26.createNotificationChannel, channel.get());

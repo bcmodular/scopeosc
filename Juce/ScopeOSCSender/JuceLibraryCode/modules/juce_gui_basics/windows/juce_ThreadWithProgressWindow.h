@@ -78,6 +78,8 @@ namespace juce
     @endcode
 
     @see Thread, AlertWindow
+
+    @tags{GUI}
 */
 class JUCE_API  ThreadWithProgressWindow  : public Thread,
                                             private Timer
@@ -162,7 +164,7 @@ private:
     void timerCallback() override;
 
     double progress;
-    ScopedPointer<AlertWindow> alertWindow;
+    std::unique_ptr<AlertWindow> alertWindow;
     String message;
     CriticalSection messageLock;
     const int timeOutMsWhenCancelling;

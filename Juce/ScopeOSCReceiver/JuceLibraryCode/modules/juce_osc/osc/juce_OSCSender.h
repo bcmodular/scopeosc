@@ -33,7 +33,9 @@ namespace juce
 
     An OSCSender object can connect to a network port. It then can send OSC
     messages and bundles to a specified host over an UDP socket.
- */
+
+    @tags{OSC}
+*/
 class JUCE_API  OSCSender
 {
 public:
@@ -141,7 +143,7 @@ private:
     struct Pimpl;
     friend struct Pimpl;
     friend struct ContainerDeletePolicy<Pimpl>;
-    ScopedPointer<Pimpl> pimpl;
+    std::unique_ptr<Pimpl> pimpl;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (OSCSender)
 };

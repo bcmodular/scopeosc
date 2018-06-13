@@ -38,6 +38,8 @@ namespace juce
     This is an advanced OSC structure useful to bundle OSC messages together
     whose effects must occur simultaneously at some given time. For most
     use cases it is probably enough to send and receive plain OSC messages.
+
+    @tags{OSC}
 */
 class JUCE_API  OSCBundle
 {
@@ -96,8 +98,8 @@ public:
 
     private:
         //==============================================================================
-        ScopedPointer<OSCMessage> message;
-        ScopedPointer<OSCBundle> bundle;
+        std::unique_ptr<OSCMessage> message;
+        std::unique_ptr<OSCBundle> bundle;
     };
 
     //==============================================================================

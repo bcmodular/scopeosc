@@ -40,6 +40,8 @@ namespace juce
     Each column must be given a unique ID number that's used to refer to it.
 
     @see TableListBox, TableHeaderComponent::Listener
+
+    @tags{GUI}
 */
 class JUCE_API  TableHeaderComponent   : public Component,
                                          private AsyncUpdater
@@ -431,7 +433,7 @@ private:
 
     OwnedArray<ColumnInfo> columns;
     Array<Listener*> listeners;
-    ScopedPointer<Component> dragOverlayComp;
+    std::unique_ptr<Component> dragOverlayComp;
     class DragOverlayComp;
 
     bool columnsChanged = false, columnsResized = false, sortChanged = false;

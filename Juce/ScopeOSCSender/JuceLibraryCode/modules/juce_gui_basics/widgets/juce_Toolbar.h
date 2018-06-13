@@ -47,6 +47,8 @@ class ToolbarItemFactory;
     component as a source of new items.
 
     @see ToolbarItemFactory, ToolbarItemComponent, ToolbarItemPalette
+
+    @tags{GUI}
 */
 class JUCE_API  Toolbar   : public Component,
                             public DragAndDropContainer,
@@ -310,7 +312,7 @@ public:
 
 private:
     //==============================================================================
-    ScopedPointer<Button> missingItemsButton;
+    std::unique_ptr<Button> missingItemsButton;
     bool vertical = false, isEditingActive = false;
     ToolbarItemStyle toolbarStyle = iconsOnly;
     class MissingItemsComponent;

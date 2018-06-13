@@ -626,13 +626,16 @@ public:
         {
             x = target.getX();
 
-            auto spaceUnder = parentArea.getHeight() - (target.getBottom() - parentArea.getY());
+            auto spaceUnder = parentArea.getBottom() - target.getBottom();
             auto spaceOver = target.getY() - parentArea.getY();
+            auto bufferHeight = 30;
 
-            if (heightToUse < spaceUnder - 30 || spaceUnder >= spaceOver)
-                y = target.getBottom();
+            if (options.getPreferredPopupDirection() == Options::PopupDirection::upwards)
+                y = (heightToUse < spaceOver - bufferHeight  || spaceOver >= spaceUnder) ? target.getY() - heightToUse
+                                                                                         : target.getBottom();
             else
-                y = target.getY() - heightToUse;
+                y = (heightToUse < spaceUnder - bufferHeight || spaceUnder >= spaceOver) ? target.getBottom()
+                                                                                         : target.getY() - heightToUse;
         }
         else
         {
@@ -669,20 +672,17 @@ public:
                 tendTowardsRight = (parentArea.getRight() - target.getRight()) >= (target.getX() - parentArea.getX());
             }
 
-            if (tendTowardsRight)
-                x = jmin (parentArea.getRight() - widthToUse - 4, target.getRight());
-            else
-                x = jmax (parentArea.getX() + 4, target.getX() - widthToUse);
+            x = tendTowardsRight ? jmin (parentArea.getRight() - widthToUse - 4, target.getRight())
+                                 : jmax (parentArea.getX() + 4, target.getX() - widthToUse);
 
             if (getLookAndFeel().getPopupMenuBorderSize() == 0) // workaround for dismissing the window on mouse up when border size is 0
                 x += tendTowardsRight ? 1 : -1;
 
-            y = target.getY();
-            if (target.getCentreY() > parentArea.getCentreY())
-                y = jmax (parentArea.getY(), target.getBottom() - heightToUse);
+            y = target.getCentreY() > parentArea.getCentreY() ? jmax (parentArea.getY(), target.getBottom() - heightToUse)
+                                                              : target.getY();
         }
 
-        x = jmax (parentArea.getX() + 1, jmin (parentArea.getRight() - (widthToUse + 6), x));
+        x = jmax (parentArea.getX() + 1, jmin (parentArea.getRight()  - (widthToUse  + 6), x));
         y = jmax (parentArea.getY() + 1, jmin (parentArea.getBottom() - (heightToUse + 6), y));
 
         windowPos.setBounds (x, y, widthToUse, heightToUse);
@@ -789,7 +789,7 @@ public:
                                                     windowPos.getHeight() - (PopupMenuSettings::scrollZone + m->getHeight())),
                                               currentY);
 
-                        auto parentArea = getParentArea (windowPos.getPosition());
+                        auto parentArea = getParentArea (windowPos.getPosition()) / scaleFactor;
                         auto deltaY = wantedY - currentY;
 
                         windowPos.setSize (jmin (windowPos.getWidth(), parentArea.getWidth()),
@@ -993,7 +993,7 @@ public:
     bool dismissOnMouseUp, hideOnExit = false, disableMouseMoves = false, hasAnyJuceCompHadFocus = false;
     int numColumns = 0, contentHeight = 0, childYOffset = 0;
     Component::SafePointer<ItemComponent> currentChild;
-    ScopedPointer<MenuWindow> activeSubMenu;
+    std::unique_ptr<MenuWindow> activeSubMenu;
     Array<int> columnWidths;
     uint32 windowCreationTime, lastFocusedTime, timeEnteredCurrentChildComp;
     OwnedArray<MouseSourceState> mouseSourceStates;
@@ -1076,8 +1076,8 @@ private:
                            const bool wasDown, const bool overScrollArea, const bool isOverAny)
     {
         isDown = window.hasBeenOver
-                    && (ModifierKeys::getCurrentModifiers().isAnyMouseButtonDown()
-                         || ModifierKeys::getCurrentModifiersRealtime().isAnyMouseButtonDown());
+                    && (ModifierKeys::currentModifiers.isAnyMouseButtonDown()
+                         || ComponentPeer::getCurrentModifiersRealtime().isAnyMouseButtonDown());
 
         if (! window.doesAnyJuceCompHaveFocus())
         {
@@ -1580,13 +1580,20 @@ PopupMenu::Options PopupMenu::Options::withParentComponent (Component* parent) c
     return o;
 }
 
+PopupMenu::Options PopupMenu::Options::withPreferredPopupDirection (PopupDirection direction) const noexcept
+{
+    Options o (*this);
+    o.preferredPopupDirection = direction;
+    return o;
+}
+
 Component* PopupMenu::createWindow (const Options& options,
                                     ApplicationCommandManager** managerOfChosenCommand) const
 {
     return items.isEmpty() ? nullptr
                            : new HelperClasses::MenuWindow (*this, nullptr, options,
                                                             ! options.getTargetScreenArea().isEmpty(),
-                                                            ModifierKeys::getCurrentModifiers().isAnyMouseButtonDown(),
+                                                            ModifierKeys::currentModifiers.isAnyMouseButtonDown(),
                                                             managerOfChosenCommand);
 }
 
@@ -1625,7 +1632,7 @@ struct PopupMenuCompletionCallback  : public ModalComponentManager::Callback
     }
 
     ApplicationCommandManager* managerOfChosenCommand = nullptr;
-    ScopedPointer<Component> component;
+    std::unique_ptr<Component> component;
     WeakReference<Component> prevFocused, prevTopLevel;
 
     JUCE_DECLARE_NON_COPYABLE (PopupMenuCompletionCallback)
@@ -1634,8 +1641,8 @@ struct PopupMenuCompletionCallback  : public ModalComponentManager::Callback
 int PopupMenu::showWithOptionalCallback (const Options& options, ModalComponentManager::Callback* const userCallback,
                                          const bool canBeModal)
 {
-    ScopedPointer<ModalComponentManager::Callback> userCallbackDeleter (userCallback);
-    ScopedPointer<PopupMenuCompletionCallback> callback (new PopupMenuCompletionCallback());
+    std::unique_ptr<ModalComponentManager::Callback> userCallbackDeleter (userCallback);
+    std::unique_ptr<PopupMenuCompletionCallback> callback (new PopupMenuCompletionCallback());
 
     if (auto* window = createWindow (options, &(callback->managerOfChosenCommand)))
     {

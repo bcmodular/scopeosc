@@ -35,6 +35,8 @@ namespace juce
 
     This class is also a ChangeBroadcaster, so listeners can register to be told
     when the colour changes.
+
+    @tags{GUI}
 */
 class JUCE_API  ColourSelector  : public Component,
                                   public ChangeBroadcaster
@@ -147,9 +149,9 @@ private:
 
     Colour colour;
     float h, s, v;
-    ScopedPointer<Slider> sliders[4];
-    ScopedPointer<ColourSpaceView> colourSpace;
-    ScopedPointer<HueSelectorComp> hueSelector;
+    std::unique_ptr<Slider> sliders[4];
+    std::unique_ptr<ColourSpaceView> colourSpace;
+    std::unique_ptr<HueSelectorComp> hueSelector;
     OwnedArray<SwatchComponent> swatchComponents;
     const int flags;
     int edgeGap;

@@ -44,6 +44,8 @@ class MemoryBlock;
     InterprocessConnectionServer class.
 
     @see InterprocessConnectionServer, Socket, NamedPipe
+
+    @tags{Events}
 */
 class JUCE_API  InterprocessConnection
 {
@@ -177,8 +179,8 @@ public:
 private:
     //==============================================================================
     CriticalSection pipeAndSocketLock;
-    ScopedPointer<StreamingSocket> socket;
-    ScopedPointer<NamedPipe> pipe;
+    std::unique_ptr<StreamingSocket> socket;
+    std::unique_ptr<NamedPipe> pipe;
     bool callbackConnectionState = false;
     const bool useMessageThread;
     const uint32 magicMessageHeader;
@@ -191,12 +193,13 @@ private:
     void connectionMadeInt();
     void connectionLostInt();
     void deliverDataInt (const MemoryBlock&);
-    bool readNextMessageInt();
+    bool readNextMessage();
+    int readData (void*, int);
 
     struct ConnectionThread;
     friend struct ConnectionThread;
     friend struct ContainerDeletePolicy<ConnectionThread>;
-    ScopedPointer<ConnectionThread> thread;
+    std::unique_ptr<ConnectionThread> thread;
     void runThread();
     int writeData (void*, int);
 

@@ -35,6 +35,8 @@ namespace juce
     fonts and colours.
 
     @see TextEditor::Listener, Label
+
+    @tags{GUI}
 */
 class JUCE_API  TextEditor  : public Component,
                               public TextInputTarget,
@@ -702,7 +704,7 @@ private:
     struct InsertAction;
     struct RemoveAction;
 
-    ScopedPointer<Viewport> viewport;
+    std::unique_ptr<Viewport> viewport;
     TextHolderComponent* textHolder;
     BorderSize<int> borderSize { 1, 1, 1, 3 };
     Justification justification { Justification::left };
@@ -723,7 +725,7 @@ private:
     bool consumeEscAndReturnKeys = true;
 
     UndoManager undoManager;
-    ScopedPointer<CaretComponent> caret;
+    std::unique_ptr<CaretComponent> caret;
     Range<int> selection;
     int leftIndent = 4, topIndent = 4;
     unsigned int lastTransactionTime = 0;
@@ -775,6 +777,7 @@ private:
     float getWordWrapWidth() const;
     float getJustificationWidth() const;
     void timerCallbackInt();
+    void checkFocus();
     void repaintText (Range<int>);
     void scrollByLines (int deltaLines);
     bool undoOrRedo (bool shouldUndo);
