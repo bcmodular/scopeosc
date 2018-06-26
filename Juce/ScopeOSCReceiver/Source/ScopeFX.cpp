@@ -52,7 +52,7 @@ EXTERN_C IMAGE_DOS_HEADER __ImageBase;
 
 using namespace ScopeFXParameterDefinitions;
 
-ScopeFX::ScopeFX() : Effect(&effectDescription), parameterValues {}
+ScopeFX::ScopeFX() : Effect(&effectDescription), parameterValues {}, startupDelay(5)
 {
 	#ifdef _WIN32
         Process::setCurrentModuleInstanceHandle(HINST_THISCOMPONENT);
@@ -73,7 +73,13 @@ int ScopeFX::async(PadData** asyncIn,  PadData* /*syncIn*/,
 		parameters[i]->toggleListening(asyncIn[INPAD_LISTENING]->itg);
 		parameters[i]->setConfigurationUID(asyncIn[INPAD_CONFIGUID]->itg);
 	
-		asyncOut[i].itg = parameterValues[i].load(std::memory_order_relaxed);
+		// There are some issues with module loading order in Scope SDK, which means
+		// that values we pass out of the DLL don't get "seen" by some modules if we 
+		// set them too early. Hence waiting a few cycles before setting them
+		if (startupDelay > 0)
+			--startupDelay;
+		else
+			asyncOut[i].itg = parameterValues[i].load(std::memory_order_relaxed);
 	}
 		
 	return 0;

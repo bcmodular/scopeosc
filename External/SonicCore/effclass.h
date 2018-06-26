@@ -249,7 +249,7 @@ inline short GetInterpolatedSample(register short *buf,register unsigned long fr
 	lha	r6,2(buf)		//r6 = sample[1], sign extended
 	subf	r7,r5,r6		//r7 = r6 - r5
 	li r8,1			//damit die signed multiplikation auch klappt,
-	srw fracpos,fracpos,r8		//shifte if fracpos um 1 nach rechts, und dafür
+	srw fracpos,fracpos,r8		//shifte if fracpos um 1 nach rechts, und daf≈∏r
 	slw r7,r7,r8		//shifte ich (sample[1]-sample[0]) um 1 nach links
 	mulhw r7,r7,fracpos		//r7 = HIDWORD(r7*fracpos)
 	add ret,r7,r5		//r3 = r7 + sample[0] = return value

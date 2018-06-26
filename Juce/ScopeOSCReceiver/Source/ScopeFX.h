@@ -48,12 +48,12 @@ public:
     // and fill in outgoing streams as appropriate
     int  syncBlock (PadData** asyncIn,  PadData* syncIn,
                     PadData*  asyncOut, PadData* syncOut, 
-                    int       off,      int      cnt);
+                    int       off,      int      cnt) override;
 
     // Process new Async values coming in from Scope and pass on
     // updates from within ScopeSync
     int  async (PadData** asyncIn,  PadData* syncIn,
-                PadData*  asyncOut, PadData* syncOut);
+                PadData*  asyncOut, PadData* syncOut) override;
 
 	void setParameterValue(int parameterNumber, int newValue);
 
@@ -62,6 +62,8 @@ private:
 	OwnedArray<BCMParameter> parameters;
 
 	std::array<std::atomic<int>, 16> parameterValues;
+	
+	int startupDelay;
 };
 
 #endif  // SCOPEFX_H_INCLUDED
